@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import Eris, { Message, TextableChannel } from "eris";
-import { KopyCommand } from "../main/KopyCommand";
+import { KopyCommand } from "../../utilities/KopyCommand";
 
 export class Ping extends KopyCommand { // Responds with "Pong!" when someone runs it
     constructor() {

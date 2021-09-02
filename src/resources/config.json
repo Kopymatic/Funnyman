@@ -1,0 +1,15 @@
+{
+    "experimental": true,
+    "version": "6.0 Early Alpha",
+    "defaultEmbedColor": "",
+    "mainBot":{
+        "prefix": "pp",
+        "name": "Funnyman",
+        "token": "Nzc4MDIwNzU1MzQ2Njg1OTcy.X7L6Sw._kducQsEOfd-1kKcHPwS_Lfe8Ko"
+    },
+    "devBot": {
+        "prefix": "dd",
+        "name": "FunnymanDev",
+        "token": "NzkzMjk2MTc5NTU5MDA2MjE4.X-qMow.yApK7BCpXprQzj5o7bU0y5cIuSk"
+    }
+}

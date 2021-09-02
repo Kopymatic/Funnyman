@@ -1,7 +1,7 @@
 import { randomInt } from "crypto";
 import Eris, { Message, TextableChannel } from "eris";
-import { global } from "../main/global";
-import { KopyCommand } from "../main/KopyCommand";
+import { global } from "../../main/global";
+import { KopyCommand } from "../../utilities/KopyCommand";
 
 export class Eval extends KopyCommand {
     constructor() {

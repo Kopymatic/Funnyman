@@ -3,3 +3,4 @@ dist/
 index-linux
 index-win.exe
 index-macos
+resources/bot.json
