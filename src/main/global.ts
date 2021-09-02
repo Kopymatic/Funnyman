@@ -8,6 +8,8 @@ export module global {
     export var prefix: string;
     export var token: string;
     export var defaultColor = 0xFF6FFF
+    export var red = 0xED4245
+    export var green = 0x57F287
     if (experimental) { //There is probably a much better way to do this.s
         name = config.devBot.name;
         prefix = config.devBot.prefix;

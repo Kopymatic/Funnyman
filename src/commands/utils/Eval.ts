@@ -20,7 +20,7 @@ export class Eval extends KopyCommand {
         if(msg.author.id === "326489320980611075") { //TODO make this use a list from a json or something
             let prefix = msg.content.split(" ")[0];
             try {
-                console.log(`Evaluating ${msg.content.replace(prefix, "")}`)
+                console.log(`Evaluating ${args.join(" ")}`)
                 return `\`\`\`${eval(msg.content.replace(prefix, ""))}\`\`\``
             } catch (_e) {
                 let e: Error = _e;

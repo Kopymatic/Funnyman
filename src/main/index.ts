@@ -24,9 +24,23 @@ const bot = new Eris.CommandClient(global.token, {
 
 global.bot = bot;
 
-bot.on("ready", () => { console.log("Ready!") }); //When bot is ready, log ready
-bot.on("error", (err) => {console.error(err)}); //If the bot encounters an error, log it
+bot.on("ready", () => { //When bot is ready, log ready
+    console.log("Ready!") 
+    bot.createMessage("826674337591197708", {embed:{
+        title: `${global.name} Version ${global.version} is now online!`,
+        color: global.green
+    }});
+});
 bot.on("shardReady", (id) => {bot.shards.get(id).editStatus("online", {name: `Do ${global.prefix}help for help | Version ${global.version} | Shard ${id}`, type: 3})})
+
+bot.on("error", (err) => {  //If the bot encounters an error, log it
+    console.error(err)
+    bot.createMessage("826674337591197708", {embed:{
+        title: `${global.name} encountered an error!`,
+        description: `\`\`\`${err.name}\n${err.message}\n${err.stack}\`\`\``,
+        color: global.red
+    }});
+});
 
 commands.forEach(command => {
     console.debug(`Loading command "${command.label}"`);
