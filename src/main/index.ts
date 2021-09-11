@@ -13,13 +13,11 @@ console.log(
 const bot = new Eris.CommandClient(global.token, {
     allowedMentions: {everyone: false}, //No pingy everyone
     maxShards: "auto",
-}, { //Make commandclient
+}, {
     description: "A very funny man lmao",
     owner: "Kopy",
     prefix: global.prefix,
     name: global.name,
-    ignoreBots: false,
-    ignoreSelf: false
 });
 
 global.bot = bot;

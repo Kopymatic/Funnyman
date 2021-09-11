@@ -4,3 +4,4 @@ index-linux
 index-win.exe
 index-macos
 resources/bot.json
+src/resources/config.json
