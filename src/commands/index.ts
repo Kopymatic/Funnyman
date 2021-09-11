@@ -4,13 +4,14 @@ import { OneVOne } from "./fun/OneVOne";
 import { Ping, Pong } from "./utils/Ping";
 import { AddSpaces, Clap, Say } from "./convenience/QuickFormatCommands";
 import { Test } from "./utils/Test";
+import { InsultSimulator } from "./fun/InsultSimulator";
 
 const commands: KopyCommand[] = [
     //convenience
 
 
     //fun
-    new OneVOne(),
+    new OneVOne(), new InsultSimulator(),
     
     //utils
     new Ping(), new Pong(),
