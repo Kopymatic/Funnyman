@@ -1,5 +1,5 @@
 import { randomInt } from "crypto";
-import Eris, { GeneratorFunctionReturn, Message, TextableChannel } from "eris";
+import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
 import lists from "../../resources/lists.json";
 import { global } from "../../main/global";

@@ -1,5 +1,3 @@
-import { Message, TextableChannel } from "eris";
-import { buffer } from "stream/consumers";
 import { KopyCommand } from "../../utilities/KopyCommand";
 
 export class Say extends KopyCommand {
