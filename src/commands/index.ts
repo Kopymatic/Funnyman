@@ -4,15 +4,19 @@ import { OneVOne } from "./fun/OneVOne";
 import { Ping, Pong } from "./utils/Ping";
 import { AddSpaces, Alphebetizer, Clap, OwOifier, RandomCaps, Reverser, Say } from "./convenience/QuickFormatCommands";
 import { Test } from "./utils/Test";
+<<<<<<< HEAD
 import { ComplexEmbed } from "./utils/EmbedCommands";
 import { Lenny, LennyConcern, RickRoll } from "./convenience/QuickStringCommands";
+=======
+import { InsultSimulator } from "./fun/InsultSimulator";
+>>>>>>> Kopy/master
 
 const commands: KopyCommand[] = [
     //convenience
 
 
     //fun
-    new OneVOne(),
+    new OneVOne(), new InsultSimulator(),
     
     //utils
     new Ping(), new Pong(), new ComplexEmbed(),
