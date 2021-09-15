@@ -14,7 +14,7 @@ export class Eval extends KopyCommand {
         this.generator = (msg, args) => this.run(msg, args);
     }
 
-    override run(msg: Message<TextableChannel>, args: string[]): string {
+    override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         if(msg.author.id === "326489320980611075") { //TODO make this use a list from a json or something
             let prefix = msg.content.split(" ")[0];
             try {

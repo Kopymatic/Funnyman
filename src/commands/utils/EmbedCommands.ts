@@ -15,7 +15,7 @@ export class ComplexEmbed extends KopyCommand {
         this.generator = (msg, args) => this.run(msg, args)
     }
 
-    override run(msg: Message<TextableChannel>, args: string[]): string {
+    override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         if (args.join("") == "") {
             global.bot.createMessage(msg.channel.id, {
                 embed: {

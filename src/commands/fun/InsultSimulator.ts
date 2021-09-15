@@ -20,7 +20,7 @@ export class InsultSimulator extends KopyCommand {
         this.generator = (msg, args) => this.run(msg, args)
     }
 
-    override run(msg: Message<TextableChannel>, args: string[]): string {
+    override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         let name = args[0];
         let insult = lists.Insults[randomInt(lists.Insults.length)];
         let final = insult.replace(/~/g,name);

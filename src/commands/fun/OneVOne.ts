@@ -20,7 +20,7 @@ export class OneVOne extends KopyCommand {
         this.generator = (msg, args) => this.run(msg, args)
     }
 
-    override run(msg: Message<TextableChannel>, args: string[]): string {
+    override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         let title = lists.OneVOne.titles[randomInt(lists.OneVOne.titles.length)];
         let action = lists.OneVOne.actions[randomInt(lists.OneVOne.actions.length)];
         let descriptor = lists.OneVOne.descriptors[randomInt(lists.OneVOne.descriptors.length)];

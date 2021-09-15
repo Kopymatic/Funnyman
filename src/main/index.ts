@@ -1,6 +1,7 @@
 import Eris, { CommandOptions } from "eris";
 import { global } from "../main/global"
 import commands from "../commands"
+import { Sequelize } from "sequelize";
 
 console.log("Loading...");
 console.log(
@@ -8,7 +9,15 @@ console.log(
        experimental: ${global.experimental}
        name: ${global.name}
        prefix: ${global.prefix}`
-    )
+    );
+
+global.database = new Sequelize(`postgres://${global.databaseUsername}:${global.databasePassword}@localhost:5432/KotBot`, {logging: false});
+try {
+    global.database.authenticate();
+    console.log('Database connection successful!');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 
 const bot = new Eris.CommandClient(global.token, {
     allowedMentions: {everyone: false}, //No pingy everyone

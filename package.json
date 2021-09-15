@@ -8,11 +8,15 @@
     "@types/ws": "^7.4.7",
     "eris": "^0.15.1",
     "opusscript": "^0.0.8",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5",
     "tweetnacl": "^1.0.3",
     "ws": "^8.2.1"
   },
   "devDependencies": {
-    "@types/node": "^16.7.10",
+    "@types/node": "^16.9.1",
+    "@types/validator": "^13.6.3",
     "node": "^16.6.1",
     "typescript": "^4.4.2"
   }

@@ -6,5 +6,5 @@ export class KopyCommand {
     options: CommandOptions;
     subcommands: KopyCommand[] = [];
 
-    run(msg: Message<TextableChannel>, args: String[]): string { return }
+    async run(msg: Message<TextableChannel>, args: String[]): Promise<string> { return }
 }

@@ -1,4 +1,5 @@
 import { CommandClient } from "eris";
+import { Sequelize } from "sequelize/types";
 import config from "../resources/config.json"
 
 export module global {
@@ -20,4 +21,7 @@ export module global {
         token = config.mainBot.token;
     }
     export var bot: CommandClient;
+    export var databaseUsername: string = config.database.user;
+    export var databasePassword: string = config.database.password;
+    export var database: Sequelize
 }
