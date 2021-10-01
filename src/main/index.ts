@@ -10,18 +10,17 @@ console.log(
        name: ${global.name}
        prefix: ${global.prefix}`
     );
-
+    
 global.database = new Sequelize(`postgres://${global.databaseUsername}:${global.databasePassword}@localhost:5432/KotBot`, {logging: false});
-try {
-    global.database.authenticate();
-    console.log('Database connection successful!');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+global.database.authenticate();
+console.log('Database connection successful!');
 
 const bot = new Eris.CommandClient(global.token, {
+    intents: ["guildMessages", "directMessages", "guildMessageReactions", "directMessageTyping", "guildMessageTyping",
+        "guildEmojis"],
     allowedMentions: {everyone: false}, //No pingy everyone
     maxShards: "auto",
+    restMode: true,
 }, {
     description: "A very funny man lmao",
     owner: "Kopy",
@@ -30,13 +29,16 @@ const bot = new Eris.CommandClient(global.token, {
 });
 
 global.bot = bot;
-
+let firstReady = true;
 bot.on("ready", () => { //When bot is ready, log ready
-    console.log("Ready!") 
-    bot.createMessage("826674337591197708", {embed:{
-        title: `${global.name} Version ${global.version} is now online!`,
-        color: global.green
-    }});
+    if (firstReady) {
+        console.log("Ready!") 
+        bot.createMessage("826674337591197708", {embed:{
+            title: `${global.name} Version ${global.version} is now online!`,
+            color: global.green
+        }});
+        firstReady = false;
+    }
 });
 bot.on("shardReady", (id) => {bot.shards.get(id).editStatus("online", {name: `Do ${global.prefix}help for help | Version ${global.version} | Shard ${id}`, type: 3})})
 

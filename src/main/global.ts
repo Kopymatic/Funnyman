@@ -23,5 +23,6 @@ export module global {
     export var bot: CommandClient;
     export var databaseUsername: string = config.database.user;
     export var databasePassword: string = config.database.password;
-    export var database: Sequelize
+    export var database: Sequelize;
+    export var loggingChannelId: string = config.loggingChannelId;
 }

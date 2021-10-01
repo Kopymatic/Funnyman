@@ -7,12 +7,12 @@ import { global } from "../../main/global";
 export class InsultSimulator extends KopyCommand {
     constructor() {
         super()
-        this.label = "InsultSimulator";
+        this.label = "Insult";
         this.options = {
             description: "Insult whoever or whatever", 
             fullDescription: "Insult whoever or whatever", 
-            aliases: ["Insult"], 
-            usage: "[ThingOne]", 
+            aliases: ["InsultSimulator"], 
+            usage: "[Thing to insult]", 
             argsRequired: true,
             invalidUsageMessage: "Run the command again with something to Insult",
             caseInsensitive: true
