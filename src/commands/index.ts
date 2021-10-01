@@ -7,13 +7,15 @@ import { Test } from "./utils/Test";
 import { ComplexEmbed } from "./utils/EmbedCommands";
 import { Lenny, LennyConcern, RickRoll } from "./convenience/QuickStringCommands";
 import { InsultSimulator } from "./fun/InsultSimulator";
+import { Cuddle, HandHold, HeadPat, Hug, Kiss } from "./fun/LoveCommands";
 
 const commands: KopyCommand[] = [
     //convenience
 
 
     //fun
-    new OneVOne(), new InsultSimulator(),
+    new OneVOne(), new InsultSimulator(), new Hug(), 
+    new Kiss(), new Cuddle(), new HandHold(), new HeadPat(),
     
     //utils
     new Ping(), new Pong(), new ComplexEmbed(),
