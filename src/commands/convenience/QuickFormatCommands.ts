@@ -14,7 +14,7 @@ export class Say extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" ")
+            return args.join(" ").slice(0, 2000)
         };
     }
 }
@@ -33,7 +33,7 @@ export class Clap extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" :clap: ")
+            return args.join(" :clap: ").slice(0, 2000)
         };
     }
 }
@@ -52,7 +52,7 @@ export class AddSpaces extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" ").split("").join(" ") //Jank to add spaces
+            return args.join(" ").split("").join(" ").slice(0, 2000) //Jank to add spaces
         };
     }
 }
@@ -85,7 +85,7 @@ export class OwOifier extends KopyCommand {
                 .replace(/y /g, "ie ")
                 .replace(/Y /g, "IE ")
                 .replace(/r/g, "w")
-                .replace(/R/g, "W");
+                .replace(/R/g, "W").slice(0, 2000);
         };
     }
 }
@@ -150,7 +150,7 @@ export class Reverser extends KopyCommand {
             for (let i = charList.length - 1; i > 0; i--) {
                 newText += charList[i];
             }
-            return newText;
+            return newText.slice(0, 2000);
         };
     }
 }
@@ -172,7 +172,7 @@ export class Alphebetizer extends KopyCommand {
             let text = args.join(" ");
             let charList = text.split("");
             charList.sort(); //Sort alphebetically
-            return charList.join("");
+            return charList.join("").slice(0, 2000);
         };
     }
 }
@@ -201,7 +201,7 @@ export class RandomCaps extends KopyCommand {
                     finalText += element.toLowerCase();
                 }
             }
-            return finalText;
+            return finalText.slice(0, 2000);
         };
     }
 }
