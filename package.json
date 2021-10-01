@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@types/ws": "^7.4.7",
-    "eris": "^0.15.1",
+    "eris": "github:DonovanDMC/eris#everything",
     "opusscript": "^0.0.8",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
