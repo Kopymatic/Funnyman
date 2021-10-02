@@ -31,8 +31,8 @@ const bot = new Eris.CommandClient(global.token, {
 global.bot = bot;
 let firstReady = true;
 bot.on("ready", () => { //When bot is ready, log ready
+    console.log("Ready!");
     if (firstReady) {
-        console.log("Ready!") 
         bot.createMessage("826674337591197708", {embed:{
             title: `${global.name} Version ${global.version} is now online!`,
             color: global.green
@@ -62,6 +62,6 @@ commands.forEach(command => {
     }
 });
 
-bot.editStatus("idle", {name: `Loading...`, type: 3})
+bot.editStatus("idle", {name: `Loading...`, type: 3});
 
 bot.connect();

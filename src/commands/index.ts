@@ -1,5 +1,6 @@
 import { KopyCommand } from "../utilities/KopyCommand";
 import { Eval } from "./utils/Eval";
+import { About } from "./utils/About";
 import { OneVOne } from "./fun/OneVOne";
 import { Ping, Pong } from "./utils/Ping";
 import { AddSpaces, Alphebetizer, Clap, OwOifier, RandomCaps, Reverser, Say } from "./convenience/QuickFormatCommands";
@@ -19,7 +20,7 @@ const commands: KopyCommand[] = [
     
     //utils
     new Ping(), new Pong(), new ComplexEmbed(),
-    new Eval(), new Test(),
+    new Eval(), new Test(), new About(),
     
     //QuickFormatCommands
     new Say(), new Clap(), new AddSpaces(), new OwOifier(), new Reverser(),

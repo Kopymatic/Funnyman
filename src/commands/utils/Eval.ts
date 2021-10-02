@@ -1,5 +1,6 @@
 import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
+import { global } from "../../main/global"
 
 export class Eval extends KopyCommand {
     constructor() {
