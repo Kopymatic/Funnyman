@@ -2,6 +2,7 @@ import Eris, { CommandOptions } from "eris";
 import { global } from "../main/global"
 import commands from "../commands"
 import { Sequelize } from "sequelize";
+import * as pg from "pg"
 
 console.log("Loading...");
 console.log(
@@ -11,7 +12,10 @@ console.log(
        prefix: ${global.prefix}`
     );
     
-global.database = new Sequelize(`postgres://${global.databaseUsername}:${global.databasePassword}@localhost:5432/KotBot`, {logging: false});
+global.database = new Sequelize(`postgres://${global.databaseUsername}:${global.databasePassword}@localhost:5432/KotBot`, {
+    logging: false,
+    dialectModule: pg
+});
 global.database.authenticate();
 console.log('Database connection successful!');
 
