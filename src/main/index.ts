@@ -1,4 +1,4 @@
-import Eris, { CommandOptions } from "eris";
+import Eris from "eris";
 import { global } from "../main/global"
 import commands from "../commands"
 import { Sequelize } from "sequelize";
@@ -57,7 +57,7 @@ bot.on("error", (err) => {  //If the bot encounters an error, log it
 
 commands.forEach(command => {
     console.debug(`Loading command "${command.label}"`);
-    let registered = bot.registerCommand(command.label, command.generator, command.options);
+    const registered = bot.registerCommand(command.label, command.generator, command.options);
     if(command.subcommands.length > 0) {
         command.subcommands.forEach(subCommand => {
             console.debug(`     Loading subcommand "${subCommand.label}"`);

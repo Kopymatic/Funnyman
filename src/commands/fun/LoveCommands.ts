@@ -1,7 +1,7 @@
 import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
 import { global } from "../../main/global";
-import { LoveCommand } from "../../resources/models";
+import { LoveCommand } from "../../main/models";
 import lists from "../../resources/lists.json"
 import { randomInt } from "crypto";
 
@@ -43,17 +43,17 @@ abstract class LoveCommands extends KopyCommand{
      protected reactionPercent = 33;
  
      /**
-      * Because funny secks number.
+      * Because funny sex number.
       */
      private sixtyNineGifs = ["https://media1.tenor.com/images/552432b67854256e7b51ab96c86d8b80/tenor.gif"];
 
 
-     override async run(msg: Message<TextableChannel>, args: String[]): Promise<string> {
+     override async run(msg: Message<TextableChannel>): Promise<string> {
          if(msg.mentions.length > 0) {
-             let user = msg.member;
-             let mention = await global.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
-             let userID = user.id; // The user id duh
-             let mentionID = mention.id; //The id of the first user mentioned
+             const user = msg.member;
+             const mention = await global.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
+             const userID = user.id; // The user id duh
+             const mentionID = mention.id; //The id of the first user mentioned
              let result: LoveCommand;
 
              //Here's where we do database shit. Oh boy.
@@ -70,7 +70,7 @@ abstract class LoveCommands extends KopyCommand{
                 result.timesperformed++;
                 result.save();
             } else {
-                let newRow = await LoveCommand.create(
+                const newRow = await LoveCommand.create(
                     {senderid: userID, receiverid: mentionID, 
                         actionidentifier: this.actionIdentifier, timesperformed: 1});
                 result = newRow;
@@ -104,7 +104,7 @@ export class Hug extends LoveCommands {
             invalidUsageMessage: "Run the command again with mention!",
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
 
         //LoveCommand options
         this.reactionPercent = 40;
@@ -128,7 +128,7 @@ export class Kiss extends LoveCommands {
             invalidUsageMessage: "Run the command again with mention!",
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
 
         //LoveCommand options
         this.reactionPercent = 60;
@@ -151,7 +151,7 @@ export class Cuddle extends LoveCommands {
             invalidUsageMessage: "Run the command again with mention!",
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
 
         //LoveCommand options
         this.reactionPercent = 85;
@@ -174,7 +174,7 @@ export class HandHold extends LoveCommands {
             invalidUsageMessage: "Run the command again with mention!",
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
 
         //LoveCommand options
         this.reactionPercent = 70;
@@ -197,7 +197,7 @@ export class HeadPat extends LoveCommands {
             invalidUsageMessage: "Run the command again with mention!",
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
 
         //LoveCommand options
         this.reactionPercent = 30;

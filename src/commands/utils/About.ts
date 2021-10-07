@@ -12,12 +12,12 @@ export class About extends KopyCommand {
             fullDescription: "Shows details about the bot", 
             caseInsensitive: true
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg) => this.run(msg)
     }
 
-    override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
-        let githubEmoji = await global.bot.getRESTGuildEmoji("793293945437814797", "853144562201133066");
-        let discordEmoji = await global.bot.getRESTGuildEmoji("793293945437814797", "853144562222104596");
+    override async run(msg: Message<TextableChannel>): Promise<string> {
+        const githubEmoji = await global.bot.getRESTGuildEmoji("793293945437814797", "853144562201133066");
+        const discordEmoji = await global.bot.getRESTGuildEmoji("793293945437814797", "853144562222104596");
 
         global.bot.createMessage(msg.channel.id, {
             embeds: [{
