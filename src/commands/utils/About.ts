@@ -26,7 +26,7 @@ export class About extends KopyCommand {
                 fields: [
                     {
                         name: "Statistics:",
-                        value: `Up since **<t:${Math.round(global.bot.startTime/1000)}:R>**`,
+                        value: `Up since **<t:${Math.round(global.absoluteStartTime/1000)}:R>**`,
                         inline: false,
                     }
                 ],

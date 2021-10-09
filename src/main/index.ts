@@ -37,6 +37,7 @@ let firstReady = true;
 bot.on("ready", () => { //When bot is ready, log ready
     console.log("Ready!");
     if (firstReady) {
+        global.absoluteStartTime = Date.now()
         bot.createMessage("826674337591197708", {embed:{
             title: `${global.name} Version ${global.version} is now online!`,
             color: global.green
