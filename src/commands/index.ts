@@ -10,6 +10,7 @@ import { Lenny, LennyConcern, RickRoll } from "./convenience/QuickStringCommands
 import { InsultSimulator } from "./fun/InsultSimulator";
 import { Cuddle, HandHold, HeadPat, Hug, Kiss } from "./fun/LoveCommands";
 import { ChatDead } from "./fun/ChatDead";
+import { MemeCmd, NoContextCmd, PeopleCmd, PetCmd } from "../commands/fun/RandomImageCommands"
 
 const commands: KopyCommand[] = [
     //convenience
@@ -18,7 +19,8 @@ const commands: KopyCommand[] = [
     //fun
     new OneVOne(), new InsultSimulator(), new Hug(), 
     new Kiss(), new Cuddle(), new HandHold(), new HeadPat(),
-    new ChatDead(),
+    new ChatDead(), new NoContextCmd(), new PeopleCmd(),
+    new PetCmd(), new MemeCmd(),
     
     //utils
     new Ping(), new Pong(), new ComplexEmbed(),

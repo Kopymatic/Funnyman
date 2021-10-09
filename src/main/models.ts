@@ -49,6 +49,7 @@ export class NoContext extends Model {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		allowNull: false,
+		autoIncrement: true
 	},
 	guildid: {
 		type: DataTypes.TEXT,
