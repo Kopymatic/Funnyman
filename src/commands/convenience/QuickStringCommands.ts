@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { KopyCommand } from "../../utilities/KopyCommand";
 
 export class Lenny extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Lenny";
         this.options = {
             description: "( ͡° ͜ʖ ͡°)",
@@ -15,7 +16,7 @@ export class Lenny extends KopyCommand {
 
 export class LennyConcern extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "hmmm";
         this.options = {
             aliases: ["hmm", "hm", "hmmmm"],
@@ -29,7 +30,7 @@ export class LennyConcern extends KopyCommand {
 
 export class RickRoll extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "RickRoll";
         this.options = {
             description: "May or may not be a rick roll",

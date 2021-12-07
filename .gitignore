@@ -6,3 +6,5 @@ index-macos
 resources/bot.json
 src/resources/config.json
 .vscode/launch.json
+.eslintrc
+.prettierrc

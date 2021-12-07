@@ -4,15 +4,15 @@ import { global } from "../../main/global";
 
 export class ComplexEmbed extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "ComplexEmbed";
         this.options = {
             description: "Make a complex embed - ADVANCED USERS ONLY",
-            usage: "Run the command with no args for help", 
+            usage: "Run the command with no args for help",
             hidden: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg, args) => this.run(msg, args);
     }
 
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
@@ -41,16 +41,17 @@ ${global.prefix}complexEmbed
         "text": "Created with FunnymanBot."
     }
 }
-\`\`\`` //JS doesnt have a .trimindent function so the string needs to be like this to appear correctly
-//Yes i am mad.
-                }
+\`\`\``, //JS doesnt have a .trimindent function so the string needs to be like this to appear correctly
+                    //Yes i am mad.
+                },
             });
         } else {
             try {
-                global.bot.createMessage(msg.channel.id, { embed: JSON.parse(args.join(" ")) } );
-            } catch (_e) { //If we get an error let the user know, probably should be fancier
-                let e: Error = _e;
-                return e.message; 
+                global.bot.createMessage(msg.channel.id, { embed: JSON.parse(args.join(" ")) });
+            } catch (_e) {
+                //If we get an error let the user know, probably should be fancier
+                const e: Error = _e;
+                return e.message;
             }
         }
         return null; //Return null so it doesnt send anything else

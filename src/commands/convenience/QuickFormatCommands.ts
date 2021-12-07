@@ -2,7 +2,7 @@ import { KopyCommand } from "../../utilities/KopyCommand";
 
 export class Say extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Say"; //Shows in the help menu
         this.options = {
             aliases: ["echo"],
@@ -14,14 +14,14 @@ export class Say extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" ").slice(0, 2000)
+            return args.join(" ").slice(0, 2000);
         };
     }
 }
 
 export class Clap extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Clap";
         this.options = {
             aliases: ["ac"],
@@ -33,14 +33,14 @@ export class Clap extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" :clap: ").slice(0, 2000)
+            return args.join(" :clap: ").slice(0, 2000);
         };
     }
 }
 
 export class AddSpaces extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "AddSpaces";
         this.options = {
             aliases: ["as", "expand"],
@@ -52,14 +52,14 @@ export class AddSpaces extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" ").split("").join(" ").slice(0, 2000) //Jank to add spaces
+            return args.join(" ").split("").join(" ").slice(0, 2000); //Jank to add spaces
         };
     }
 }
 
 export class OwOifier extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "OwOifier";
         this.options = {
             aliases: ["owo", "uwu"],
@@ -71,8 +71,9 @@ export class OwOifier extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            return args.join(" ") //TODO Replace this with a better regex for the love of god
-                .replace(/o /g , "owo ")
+            return args
+                .join(" ") //TODO Replace this with a better regex for the love of god
+                .replace(/o /g, "owo ")
                 .replace(/O /g, "OwO ")
                 .replace(/u /g, "uwu ")
                 .replace(/U /g, "UwU ")
@@ -85,7 +86,8 @@ export class OwOifier extends KopyCommand {
                 .replace(/y /g, "ie ")
                 .replace(/Y /g, "IE ")
                 .replace(/r/g, "w")
-                .replace(/R/g, "W").slice(0, 2000);
+                .replace(/R/g, "W")
+                .slice(0, 2000);
         };
     }
 }
@@ -131,10 +133,10 @@ export class Base64Decode extends KopyCommand {
 */
 export class Reverser extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Reverser";
         this.options = {
-            aliases: ["reverse", "rev",],
+            aliases: ["reverse", "rev"],
             description: "Repeats what you say, but reversed",
             usage: "[Text]",
             invalidUsageMessage: "Send the command with arguments!",
@@ -143,10 +145,10 @@ export class Reverser extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            let text = args.join(" ");
+            const text = args.join(" ");
             let newText = "";
-            let charList = text.split("");
-            
+            const charList = text.split("");
+
             for (let i = charList.length - 1; i > 0; i--) {
                 newText += charList[i];
             }
@@ -157,10 +159,10 @@ export class Reverser extends KopyCommand {
 
 export class Alphebetizer extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Alphebetizer";
         this.options = {
-            aliases: ["alph",],
+            aliases: ["alph"],
             description: "Repeats what you say, but alphebetized",
             usage: "[Text]",
             invalidUsageMessage: "Send the command with arguments!",
@@ -169,8 +171,8 @@ export class Alphebetizer extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            let text = args.join(" ");
-            let charList = text.split("");
+            const text = args.join(" ");
+            const charList = text.split("");
             charList.sort(); //Sort alphebetically
             return charList.join("").slice(0, 2000);
         };
@@ -179,7 +181,7 @@ export class Alphebetizer extends KopyCommand {
 
 export class RandomCaps extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "RandomCaps";
         this.options = {
             aliases: ["randcaps", "rc"],
@@ -191,10 +193,10 @@ export class RandomCaps extends KopyCommand {
             caseInsensitive: true,
         };
         this.generator = (msg, args) => {
-            let text = args.join(" ");
+            const text = args.join(" ");
             let finalText = "";
             for (let i = 0; i < text.length; i++) {
-                let element = text.charAt(i);
+                const element = text.charAt(i);
                 if (0.5 > Math.random()) {
                     finalText += element.toUpperCase();
                 } else {
