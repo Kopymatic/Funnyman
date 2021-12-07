@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { CommandClient } from "eris";
 import { Sequelize } from "sequelize/types";
-import config from "../resources/config.json"
+import config from "../resources/config.json";
 
 export module global {
     export const experimental = config.experimental;
@@ -10,10 +10,11 @@ export module global {
     export let name: string;
     export let prefix: string;
     export let token: string;
-    export const defaultColor = 0xFF6FFF //I would load these from config.json but then id have to parse and ehhhhhh
-    export const red = 0xED4245
-    export const green = 0x57F287
-    if (experimental) { //There is probably a much better way to do this
+    export const defaultColor = 0xff6fff; //I would load these from config.json but then id have to parse and ehhhhhh
+    export const red = 0xed4245;
+    export const green = 0x57f287;
+    if (experimental) {
+        //There is probably a much better way to do this
         name = config.devBot.name;
         prefix = config.devBot.prefix;
         token = config.devBot.token;

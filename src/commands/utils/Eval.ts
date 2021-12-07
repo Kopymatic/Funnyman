@@ -1,10 +1,9 @@
 import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
-import { global } from "../../main/global"
 
 export class Eval extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "Eval";
         this.options = {
             description: "Run any javascript code",
@@ -16,17 +15,18 @@ export class Eval extends KopyCommand {
     }
 
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
-        if(msg.author.id === "326489320980611075") { //TODO make this use a list from a json or something
-            let prefix = msg.content.split(" ")[0];
+        if (msg.author.id === "326489320980611075") {
+            //TODO make this use a list from a json or something
+            const prefix = msg.content.split(" ")[0];
             try {
-                console.log(`Evaluating ${args.join(" ")}`)
-                return `\`\`\`${eval(msg.content.replace(prefix, ""))}\`\`\``
+                console.log(`Evaluating ${args.join(" ")}`);
+                return `\`\`\`${eval(msg.content.replace(prefix, ""))}\`\`\``;
             } catch (_e) {
-                let e: Error = _e;
-                return `An error occured! \`\`\`${e.name}\n${e.message}\n${e.stack}\`\`\``
+                const e: Error = _e;
+                return `An error occured! \`\`\`${e.name}\n${e.message}\n${e.stack}\`\`\``;
             }
         } else {
-            return "You're not allowed to use this command!"
+            return "You're not allowed to use this command!";
         }
     }
 }

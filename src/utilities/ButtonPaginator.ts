@@ -1,6 +1,15 @@
-import { EventEmitter } from 'events';
-import { AnyChannel, Client, ComponentInteraction, Embed, Guild, Message, InteractionButton, Emoji} from 'eris';
-import { Styles, Types } from './Components';
+import { EventEmitter } from "events";
+import {
+    AnyChannel,
+    Client,
+    ComponentInteraction,
+    Embed,
+    Guild,
+    Message,
+    InteractionButton,
+    Emoji,
+} from "eris";
+import { Styles, Types } from "./Components";
 
 export class ButtonPaginator extends EventEmitter {
     private client: Client;
@@ -12,9 +21,8 @@ export class ButtonPaginator extends EventEmitter {
     private forwardButton: InteractionButton;
     private skipBackButton: InteractionButton;
     private skipForwardButton: InteractionButton;
-    
 
-    constructor( client: Client, message: Message, options: MenuCollectorOptions,) {
+    constructor(client: Client, message: Message, options: MenuCollectorOptions) {
         super();
         this.client = client;
         this.message = message;
@@ -27,56 +35,56 @@ export class ButtonPaginator extends EventEmitter {
     }
 
     private async initialize() {
-        await this.getEmojis()
+        await this.getEmojis();
 
         this.backButton = {
             type: Types.Button,
             label: "",
             custom_id: `BackButton|${this.message.id}`,
             emoji: this.options.backButtonEmoji,
-            style: Styles.Primary
-        }
+            style: Styles.Primary,
+        };
 
         this.forwardButton = {
             type: Types.Button,
             label: "",
             custom_id: `ForwardButton|${this.message.id}`,
             emoji: this.options.forwardButtonEmoji,
-            style: Styles.Primary
-        }
+            style: Styles.Primary,
+        };
 
         this.skipBackButton = {
             type: Types.Button,
             label: "",
             custom_id: `SkipBackButton|${this.message.id}`,
             emoji: this.options.skipBackButtonEmoji,
-            style: Styles.Primary
-        }
+            style: Styles.Primary,
+        };
 
         this.skipForwardButton = {
             type: Types.Button,
             label: "",
             custom_id: `SkipForwardButton|${this.message.id}`,
             emoji: this.options.skipForwardButtonEmoji,
-            style: Styles.Primary
-        }
+            style: Styles.Primary,
+        };
 
-        this.client.on('interactionCreate', this.handleButtonPress);
-        this.client.on('channelDelete', this.channelDeleteHandler);
-        this.client.on('guildDelete', this.guildDeleteHandler);
+        this.client.on("interactionCreate", this.handleButtonPress);
+        this.client.on("channelDelete", this.channelDeleteHandler);
+        this.client.on("guildDelete", this.guildDeleteHandler);
 
-        this.once('end', () => {
+        this.once("end", () => {
             clearTimeout(this.timeout);
-            this.client.off('interactionCreate', this.handleButtonPress);
-            this.client.off('channelDelete', this.channelDeleteHandler);
-            this.client.off('guildDelete', this.guildDeleteHandler);
+            this.client.off("interactionCreate", this.handleButtonPress);
+            this.client.off("channelDelete", this.channelDeleteHandler);
+            this.client.off("guildDelete", this.guildDeleteHandler);
         });
 
-        this.once('cancel', () => {
+        this.once("cancel", () => {
             clearTimeout(this.timeout);
-            this.client.off('interactionCreate', this.handleButtonPress);
-            this.client.off('channelDelete', this.channelDeleteHandler);
-            this.client.off('guildDelete', this.guildDeleteHandler);
+            this.client.off("interactionCreate", this.handleButtonPress);
+            this.client.off("channelDelete", this.channelDeleteHandler);
+            this.client.off("guildDelete", this.guildDeleteHandler);
         });
 
         this.message.edit({
@@ -84,101 +92,116 @@ export class ButtonPaginator extends EventEmitter {
             embed: {
                 ...this.options.pages[this.currentIndex],
                 footer: {
-                    text: `Page (${this.currentIndex + 1}/${
-                        this.options.pages.length
-                    })`,
+                    text: `Page (${this.currentIndex + 1}/${this.options.pages.length})`,
                 },
             },
             components: [
                 {
                     type: Types.ActionRow,
                     components: [
-                        this.skipBackButton, this.backButton, this.forwardButton, this.skipForwardButton
-                    ]
-                }
-            ]
+                        this.skipBackButton,
+                        this.backButton,
+                        this.forwardButton,
+                        this.skipForwardButton,
+                    ],
+                },
+            ],
         });
     }
 
-    private handleButtonPress = async ( interaction : ComponentInteraction ): Promise<void> => {
+    private handleButtonPress = async (interaction: ComponentInteraction): Promise<void> => {
         if (this.message.id !== interaction.message.id) {
             return;
         } else {
             interaction.acknowledge();
 
-            if(this.options.backButtonEmoji == null || this.options.skipBackButtonEmoji == null ||
-                this.options.forwardButtonEmoji == null || this.options.skipForwardButtonEmoji == null)
-                    await this.getEmojis();
+            if (
+                this.options.backButtonEmoji == null ||
+                this.options.skipBackButtonEmoji == null ||
+                this.options.forwardButtonEmoji == null ||
+                this.options.skipForwardButtonEmoji == null
+            )
+                await this.getEmojis();
 
-            if(interaction.data.custom_id == this.backButton.custom_id) { //check all buttons
+            if (interaction.data.custom_id == this.backButton.custom_id) {
+                //check all buttons
                 this.currentIndex--;
             } else if (interaction.data.custom_id == this.forwardButton.custom_id) {
                 this.currentIndex++;
-            } else if(interaction.data.custom_id == this.skipBackButton.custom_id) {
+            } else if (interaction.data.custom_id == this.skipBackButton.custom_id) {
                 this.currentIndex -= 10;
             } else if (interaction.data.custom_id == this.skipForwardButton.custom_id) {
                 this.currentIndex += 10;
             }
 
-            if(this.currentIndex < 0) { //make sure that it isnt a negative or too high value
-                this.currentIndex = this.options.pages.length - 1
-            } else if(this.currentIndex > this.options.pages.length - 1) {
-                this.currentIndex = 0
+            if (this.currentIndex < 0) {
+                //make sure that it isnt a negative or too high value
+                this.currentIndex = this.options.pages.length - 1;
+            } else if (this.currentIndex > this.options.pages.length - 1) {
+                this.currentIndex = 0;
             }
 
-            await this.message.edit({ //Edit the message
+            await this.message.edit({
+                //Edit the message
                 content: "",
                 embed: {
                     ...this.options.pages[this.currentIndex],
                     footer: {
-                        text: `Page (${this.currentIndex + 1}/${
-                            this.options.pages.length
-                        })`,
+                        text: `Page (${this.currentIndex + 1}/${this.options.pages.length})`,
                     },
                 },
                 components: [
                     {
                         type: Types.ActionRow,
                         components: [
-                            this.skipBackButton, this.backButton, this.forwardButton, this.skipForwardButton
-                        ]
-                    }
-                ]
+                            this.skipBackButton,
+                            this.backButton,
+                            this.forwardButton,
+                            this.skipForwardButton,
+                        ],
+                    },
+                ],
             });
         }
         this.timeout = this.resetTimeout();
     };
 
     private channelDeleteHandler = (channel: AnyChannel): void => {
-        if (channel.id === this.message.channel.id)
-            this.emit('cancel', null);
+        if (channel.id === this.message.channel.id) this.emit("cancel", null);
     };
     private guildDeleteHandler = (guild: Guild): void => {
-        if (guild.id === this.message.guildID)
-            this.emit('cancel', null);
+        if (guild.id === this.message.guildID) this.emit("cancel", null);
     };
 
     private resetTimeout = (): NodeJS.Timeout => {
         clearTimeout(this.timeout);
-        return setTimeout(
-            () =>
-                this.emit('cancel', null),
-            this.options.maxTime,
-        );
+        return setTimeout(() => this.emit("cancel", null), this.options.maxTime);
     };
 
     private async getEmojis() {
-        if(this.options.backButtonEmoji == null) {
-            this.options.backButtonEmoji = await this.client.getRESTGuildEmoji("793293945437814797", "894399421960294460")
+        if (this.options.backButtonEmoji == null) {
+            this.options.backButtonEmoji = await this.client.getRESTGuildEmoji(
+                "793293945437814797",
+                "894399421960294460"
+            );
         }
-        if(this.options.skipBackButtonEmoji == null) {
-            this.options.skipBackButtonEmoji = await this.client.getRESTGuildEmoji("793293945437814797", "894399421951918080")
+        if (this.options.skipBackButtonEmoji == null) {
+            this.options.skipBackButtonEmoji = await this.client.getRESTGuildEmoji(
+                "793293945437814797",
+                "894399421951918080"
+            );
         }
-        if(this.options.forwardButtonEmoji == null) {
-            this.options.forwardButtonEmoji  = await this.client.getRESTGuildEmoji("793293945437814797", "894399422119682088")
+        if (this.options.forwardButtonEmoji == null) {
+            this.options.forwardButtonEmoji = await this.client.getRESTGuildEmoji(
+                "793293945437814797",
+                "894399422119682088"
+            );
         }
-        if(this.options.skipForwardButtonEmoji == null) {
-            this.options.skipForwardButtonEmoji = await this.client.getRESTGuildEmoji("793293945437814797", "894399422060965950")
+        if (this.options.skipForwardButtonEmoji == null) {
+            this.options.skipForwardButtonEmoji = await this.client.getRESTGuildEmoji(
+                "793293945437814797",
+                "894399422060965950"
+            );
         }
     }
 }
@@ -192,5 +215,4 @@ class MenuCollectorOptions {
     public pages: Embed[];
     public maxTime: number;
     public startingPage?: number = 0;
-
 }

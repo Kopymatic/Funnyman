@@ -38,10 +38,10 @@ bot.on("ready", () => { //When bot is ready, log ready
     console.log("Ready!");
     if (firstReady) {
         global.absoluteStartTime = Date.now()
-        bot.createMessage("826674337591197708", {embed:{
+        bot.createMessage("826674337591197708", {embeds:[{
             title: `${global.name} Version ${global.version} is now online!`,
             color: global.green
-        }});
+        }]});
         firstReady = false;
     }
 });
@@ -49,11 +49,11 @@ bot.on("shardReady", (id) => {bot.shards.get(id).editStatus("online", {name: `Do
 
 bot.on("error", (err) => {  //If the bot encounters an error, log it
     console.error(err)
-    bot.createMessage("826674337591197708", {embed:{
+    bot.createMessage("826674337591197708", {embeds:[{
         title: `${global.name} encountered an error!`,
         description: `\`\`\`${err.name}\n${err.message}\n${err.stack}\`\`\``,
         color: global.red
-    }});
+    }]});
 });
 
 commands.forEach(command => {

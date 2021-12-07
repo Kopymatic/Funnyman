@@ -6,24 +6,25 @@ import { global } from "../../main/global";
 
 export class OneVOne extends KopyCommand {
     constructor() {
-        super()
+        super();
         this.label = "OneVOne";
         this.options = {
-            description: "Pit two things against eachother", 
-            fullDescription: "Pit two things against eachother - use by sending the command with two things seperated by a space", 
-            aliases: ["1v1"], 
-            usage: "[ThingOne] [ThingTwo]", 
+            description: "Pit two things against eachother",
+            fullDescription:
+                "Pit two things against eachother - use by sending the command with two things seperated by a space",
+            aliases: ["1v1"],
+            usage: "[ThingOne] [ThingTwo]",
             argsRequired: true,
             invalidUsageMessage: "Run the command again with two things, seperated by a space",
-            caseInsensitive: true
+            caseInsensitive: true,
         };
-        this.generator = (msg, args) => this.run(msg, args)
+        this.generator = (msg, args) => this.run(msg, args);
     }
 
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
-        let title = lists.OneVOne.titles[randomInt(lists.OneVOne.titles.length)];
-        let action = lists.OneVOne.actions[randomInt(lists.OneVOne.actions.length)];
-        let descriptor = lists.OneVOne.descriptors[randomInt(lists.OneVOne.descriptors.length)];
+        const title = lists.OneVOne.titles[randomInt(lists.OneVOne.titles.length)];
+        const action = lists.OneVOne.actions[randomInt(lists.OneVOne.actions.length)];
+        const descriptor = lists.OneVOne.descriptors[randomInt(lists.OneVOne.descriptors.length)];
 
         let first; //vars to store the first and second name
         let second;
@@ -36,8 +37,8 @@ export class OneVOne extends KopyCommand {
         }
 
         //Scramble the options so that its random
-        if(Math.random() < 0.5) {
-            let temp = first;
+        if (Math.random() < 0.5) {
+            const temp = first;
             first = second;
             second = temp;
         }
@@ -47,9 +48,9 @@ export class OneVOne extends KopyCommand {
             embed: {
                 title: title, // Set the title to our title variable
                 description: `${first} **${action}** ${second} **${descriptor}**`, //Use FancyString(TM) to quickly format the desc
-                color: 0xFF6FFF, // Color, either in hex (show), or a base-10 integer
-            }
+                color: global.defaultColor, // Color, either in hex (show), or a base-10 integer
+            },
         });
-        return null //Return null so it doesnt send anything else
+        return null; //Return null so it doesnt send anything else
     }
 }
