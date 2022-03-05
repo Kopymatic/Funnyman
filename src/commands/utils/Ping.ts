@@ -1,4 +1,4 @@
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 
 export class Ping extends KopyCommand {
     // Responds with "Pong!" when someone runs it

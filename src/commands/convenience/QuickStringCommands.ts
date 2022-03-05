@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 
 export class Lenny extends KopyCommand {
     constructor() {

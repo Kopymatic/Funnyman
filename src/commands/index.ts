@@ -1,4 +1,4 @@
-import { KopyCommand } from "../utilities/KopyCommand";
+import KopyCommand from "../utilities/KopyCommand";
 import { Eval } from "./utils/Eval";
 import { About } from "./utils/About";
 import { OneVOne } from "./fun/OneVOne";

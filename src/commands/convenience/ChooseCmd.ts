@@ -1,4 +1,4 @@
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 import { randomInt } from "crypto";
 
 export class ChooseCmd extends KopyCommand {

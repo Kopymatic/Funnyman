@@ -1,5 +1,5 @@
 import Eris, { Message, TextableChannel } from "eris";
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 import global from "../../main/global";
 import { Types, Styles } from "../../utilities/Components";
 import { Partner } from "../../main/models";

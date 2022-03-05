@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import { Message, TextableChannel } from "eris";
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 import lists from "../../resources/lists.json";
 import global from "../../main/global";
 

@@ -1,5 +1,5 @@
 import { Embed, Message, TextableChannel } from "eris";
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 import global from "../../main/global";
 import { Memes, NoContext, People, Pets } from "../../main/models";
 import { ButtonPaginator } from "../../utilities/ButtonPaginator";

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CommandGenerator, CommandOptions, Message, TextableChannel } from "eris";
 
-export class KopyCommand {
+export default class KopyCommand {
     label: string;
     generator: CommandGenerator;
     options: CommandOptions;

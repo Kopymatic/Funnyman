@@ -1,4 +1,4 @@
-import { KopyCommand } from "../../utilities/KopyCommand";
+import KopyCommand from "../../utilities/KopyCommand";
 
 export class Say extends KopyCommand {
     constructor() {
