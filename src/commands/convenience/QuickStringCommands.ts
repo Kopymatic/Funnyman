@@ -10,7 +10,7 @@ export class Lenny extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => "( ͡° ͜ʖ ͡°)";
+        this.generator = () => "( ͡° ͜ʖ ͡°)";
     }
 }
 
@@ -24,7 +24,7 @@ export class LennyConcern extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => "( ͠° ͟ʖ ͡°)";
+        this.generator = () => "( ͠° ͟ʖ ͡°)";
     }
 }
 
@@ -37,6 +37,6 @@ export class RickRoll extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => "https://youtu.be/dQw4w9WgXcQ";
+        this.generator = () => "https://youtu.be/dQw4w9WgXcQ";
     }
 }

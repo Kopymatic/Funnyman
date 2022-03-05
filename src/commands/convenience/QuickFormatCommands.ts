@@ -13,9 +13,7 @@ export class Say extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => {
-            return args.join(" ").slice(0, 2000);
-        };
+        this.generator = (msg, args) => args.join(" ").slice(0, 2000);
     }
 }
 
@@ -32,9 +30,7 @@ export class Clap extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => {
-            return args.join(" :clap: ").slice(0, 2000);
-        };
+        this.generator = (msg, args) => args.join(" :clap: ").slice(0, 2000);
     }
 }
 
@@ -51,9 +47,7 @@ export class AddSpaces extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => {
-            return args.join(" ").split("").join(" ").slice(0, 2000); //Jank to add spaces
-        };
+        this.generator = (msg, args) => args.join(" ").split("").join(" ").slice(0, 2000); //Jank to add spaces
     }
 }
 
@@ -70,8 +64,8 @@ export class OwOifier extends KopyCommand {
             deleteCommand: true,
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => {
-            return args
+        this.generator = (msg, args) =>
+            args
                 .join(" ") //TODO Replace this with a better regex for the love of god
                 .replace(/o /g, "owo ")
                 .replace(/O /g, "OwO ")
@@ -88,49 +82,9 @@ export class OwOifier extends KopyCommand {
                 .replace(/r/g, "w")
                 .replace(/R/g, "W")
                 .slice(0, 2000);
-        };
     }
 }
 
-//Doesnt work
-/* export class Base64Encode extends KopyCommand {
-    constructor() {
-        super()
-        this.label = "Base64Encode";
-        this.options = {
-            aliases: ["b64e", "b64encode", "encode"],
-            description: "Repeats what you say, but in Base64",
-            usage: "[Text]",
-            invalidUsageMessage: "Send the command with arguments!",
-            argsRequired: true,
-            deleteCommand: true,
-            caseInsensitive: true,
-        };
-        this.generator = (msg, args) => {
-            return Buffer.from(args.join(" "), "base64").join("")
-        };
-    }
-}
-
-export class Base64Decode extends KopyCommand {
-    constructor() {
-        super()
-        this.label = "Base64Decode";
-        this.options = {
-            aliases: ["b64d", "b64decode", "decode"],
-            description: "Repeats what you say, but in readable text",
-            usage: "[Base64]",
-            invalidUsageMessage: "Send the command with arguments!",
-            argsRequired: true,
-            deleteCommand: true,
-            caseInsensitive: true,
-        };
-        this.generator = (msg, args) => {
-            return Buffer.from(args.join(" "), "ascii").join("")
-        };
-    }
-}
-*/
 export class Reverser extends KopyCommand {
     constructor() {
         super();

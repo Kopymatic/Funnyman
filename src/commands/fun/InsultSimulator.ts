@@ -2,7 +2,7 @@ import { randomInt } from "crypto";
 import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
 import lists from "../../resources/lists.json";
-import { global } from "../../main/global";
+import global from "../../main/global";
 
 export class InsultSimulator extends KopyCommand {
     constructor() {

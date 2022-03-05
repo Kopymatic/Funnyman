@@ -12,7 +12,6 @@ export class ChatDead extends KopyCommand {
             fullDescription: "Sends a random question / conversation starter",
             usage: "Question type: [Would You Rather / wyr], [General questions / gq] (optional)",
             aliases: ["ded", "dead", "chatded"],
-            hidden: true,
             caseInsensitive: true,
         };
         this.generator = (msg, args) => this.run(msg, args);

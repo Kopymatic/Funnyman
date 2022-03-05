@@ -1,6 +1,6 @@
 import { Embed, Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
-import { global } from "../../main/global";
+import global from "../../main/global";
 import { Memes, NoContext, People, Pets } from "../../main/models";
 import { ButtonPaginator } from "../../utilities/ButtonPaginator";
 import { randomInt } from "crypto";
@@ -95,7 +95,7 @@ class RandomImageCommands extends KopyCommand {
         new ButtonPaginator(global.bot, message, {
             startingPage: 0,
             allowedUsers: [this.msg.author.id],
-            maxTime: 30000,
+            maxTime: 120000,
             pages: embeds,
         });
         return;
@@ -258,7 +258,7 @@ class RandomImageCommands extends KopyCommand {
             new ButtonPaginator(global.bot, message, {
                 startingPage: 0,
                 allowedUsers: [this.msg.author.id],
-                maxTime: 30000,
+                maxTime: 120000,
                 pages: embeds,
             });
             return;

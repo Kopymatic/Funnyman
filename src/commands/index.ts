@@ -19,9 +19,12 @@ import { InsultSimulator } from "./fun/InsultSimulator";
 import { Cuddle, HandHold, HeadPat, Hug, Kiss } from "./fun/LoveCommands";
 import { ChatDead } from "./fun/ChatDead";
 import { MemeCmd, NoContextCmd, PeopleCmd, PetCmd } from "../commands/fun/RandomImageCommands";
+import { BugReport } from "./utils/bugReport";
+import { ChooseCmd } from "./convenience/ChooseCmd";
 
 const commands: KopyCommand[] = [
     //convenience
+    new ChooseCmd(),
 
     //fun
     new OneVOne(),
@@ -44,6 +47,8 @@ const commands: KopyCommand[] = [
     new Eval(),
     new Test(),
     new About(),
+    //new PartnerCmd(), not finished
+    new BugReport(),
 
     //QuickFormatCommands
     new Say(),

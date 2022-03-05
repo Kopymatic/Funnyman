@@ -1,5 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { global } from "./global";
+import global from "./global";
 
 const database = (global.database = new Sequelize(
     `postgres://${global.databaseUsername}:${global.databasePassword}@localhost:5432/KotBot`,
@@ -245,4 +245,50 @@ Memes.init(
 Memes.sync().then(
     () => console.log("Memes model success!"),
     (err) => console.error("Memes model error!", err)
+);
+
+export class Partner extends Model {
+    // Specifying data types on the class itself so the compiler doesnt complain
+    serverID: string;
+    partners: Array<string>;
+}
+
+Partner.init(
+    {
+        serverID: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            primaryKey: true,
+        },
+        partners: {
+            type: DataTypes.ARRAY(DataTypes.TEXT),
+            allowNull: true,
+        },
+    },
+    { sequelize: database, timestamps: true }
+);
+
+Partner.sync().then(
+    () => console.log("Partner model success!"),
+    (err) => console.error("Partner model error!", err)
+);
+
+export class Bug extends Model {
+    // Specifying data types on the class itself so the compiler doesnt complain
+    id: number;
+    messageID: string;
+}
+
+Bug.init(
+    {
+        messageID: {
+            type: DataTypes.TEXT,
+        },
+    },
+    { sequelize: database, timestamps: true }
+);
+
+Bug.sync().then(
+    () => console.log("Bug model success!"),
+    (err) => console.error("Bug model error!", err)
 );

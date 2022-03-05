@@ -4,7 +4,7 @@ import { CommandClient } from "eris";
 import { Sequelize } from "sequelize/types";
 import config from "../resources/config.json";
 
-export module global {
+module global {
     export const experimental = config.experimental;
     export const version = config.version;
     export let name: string;
@@ -30,3 +30,4 @@ export module global {
     export const loggingChannelId: string = config.loggingChannelId;
     export let absoluteStartTime: number;
 }
+export default global;

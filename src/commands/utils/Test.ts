@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Message, TextableChannel } from "eris";
 import { KopyCommand } from "../../utilities/KopyCommand";
-import { global } from "../../main/global";
+import global from "../../main/global";
 import { Types, Styles } from "../../utilities/Components";
 import { ButtonPaginator } from "../../utilities/ButtonPaginator";
 
