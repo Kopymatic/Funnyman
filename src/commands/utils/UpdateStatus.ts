@@ -25,7 +25,7 @@ export class UpdateStatus extends KopyCommand {
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         if (msg.author.id == "326489320980611075") {
             //TODO make this use a list from a json or something
-            global.bot.shards.entries();
+            global.client.shards.entries();
         }
         return null;
     }

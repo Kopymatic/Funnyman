@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-namespace-keyword */
 /* eslint-disable @typescript-eslint/no-namespace */
+import BaseBot from "@kopymatic/basebot";
 import { CommandClient } from "eris";
 import { Sequelize } from "sequelize/types";
 import config from "../resources/config.json";
@@ -23,11 +24,13 @@ module global {
         prefix = config.mainBot.prefix;
         token = config.mainBot.token;
     }
-    export let bot: CommandClient;
+    export let client: CommandClient;
+    export let bot: BaseBot;
     export const databaseUsername: string = config.database.user;
     export const databasePassword: string = config.database.password;
     export let database: Sequelize;
     export const loggingChannelId: string = config.loggingChannelId;
+    export const devServerId = config.devServerId;
     export let absoluteStartTime: number;
 }
 export default global;

@@ -21,8 +21,9 @@ import { ChatDead } from "./fun/ChatDead";
 import { MemeCmd, NoContextCmd, PeopleCmd, PetCmd } from "../commands/fun/RandomImageCommands";
 import { BugReport } from "./utils/bugReport";
 import { ChooseCmd } from "./convenience/ChooseCmd";
+import { SlashCommand } from "@kopymatic/basebot";
 
-const commands: KopyCommand[] = [
+export const kopyCommands: KopyCommand[] = [
     //convenience
     new ChooseCmd(),
 
@@ -65,4 +66,4 @@ const commands: KopyCommand[] = [
     new RickRoll(),
 ];
 
-export default commands;
+export const slashCommands: SlashCommand[] = [];

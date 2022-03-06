@@ -66,7 +66,7 @@ class RandomImageCommands extends KopyCommand {
             },
         });
         if (all.length == 0) {
-            global.bot.createMessage(this.msg.channel.id, {
+            global.client.createMessage(this.msg.channel.id, {
                 content:
                     "It doesnt look like there are any entries in this guild or partnered guilds!",
             });
@@ -74,7 +74,7 @@ class RandomImageCommands extends KopyCommand {
         }
         const embed = this.makeEmbed(all[randomInt(all.length)]);
 
-        global.bot.createMessage(this.msg.channel.id, { embeds: [embed] });
+        global.client.createMessage(this.msg.channel.id, { embeds: [embed] });
         return;
     }
 
@@ -89,10 +89,10 @@ class RandomImageCommands extends KopyCommand {
             embeds.push(this.makeEmbed(item));
         }
 
-        const message = await global.bot.createMessage(this.msg.channel.id, {
+        const message = await global.client.createMessage(this.msg.channel.id, {
             content: "Loading...",
         });
-        new ButtonPaginator(global.bot, message, {
+        new ButtonPaginator(global.client, message, {
             startingPage: 0,
             allowedUsers: [this.msg.author.id],
             maxTime: 120000,
@@ -106,7 +106,7 @@ class RandomImageCommands extends KopyCommand {
         if (!isNaN(parsed)) {
             const toEdit = await this.model.findOne({ where: { id: parsed } });
             if (toEdit == null) {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content: `Error: ID #${parsed} was not found in the database!`,
                 });
             }
@@ -121,21 +121,21 @@ class RandomImageCommands extends KopyCommand {
                     const newText = this.args.join(" ");
                     toEdit.texttag = newText;
                     await toEdit.save();
-                    global.bot.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(this.msg.channel.id, {
                         content: `Successfully edited ID #${id}! New text: "${newText}"`,
                     });
                 } else {
-                    global.bot.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(this.msg.channel.id, {
                         content: `Error: Insufficient permissions! You must be the original importer.`,
                     });
                 }
             } else {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content: `Error: You cant edit entries from other guilds!`,
                 });
             }
         } else {
-            global.bot.createMessage(this.msg.channel.id, {
+            global.client.createMessage(this.msg.channel.id, {
                 content: `Error: ID #${toSearch} is invalid! Must be an integer!`,
             });
         }
@@ -151,7 +151,7 @@ class RandomImageCommands extends KopyCommand {
                 importerid: this.msg.author.id,
                 importmessageid: this.msg.id,
             });
-            global.bot.createMessage(this.msg.channel.id, {
+            global.client.createMessage(this.msg.channel.id, {
                 content: "Your entry was imported! It has the id #" + newRow.id,
             });
         }
@@ -159,7 +159,7 @@ class RandomImageCommands extends KopyCommand {
 
     protected async forceImport(): Promise<void> {
         if (this.args.length <= 1) {
-            global.bot.createMessage(this.msg.channel.id, {
+            global.client.createMessage(this.msg.channel.id, {
                 content: `Force import format: \`${global.prefix}NoContext (or applicable command) [image link] [text tag]\``,
             });
         } else {
@@ -178,11 +178,11 @@ class RandomImageCommands extends KopyCommand {
                     importerid: this.msg.author.id,
                     importmessageid: this.msg.id,
                 });
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content: "Your entry was imported! It has the id #" + newRow.id,
                 });
             } else {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content:
                         "That does not appear to be a link! If you believe this to be an error," +
                         " contact Kopy through ddabout and joining the support server.",
@@ -197,7 +197,7 @@ class RandomImageCommands extends KopyCommand {
         if (!isNaN(parsed)) {
             const toDelete = await this.model.findOne({ where: { id: parsed } });
             if (toDelete == null) {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content: `Error: ID #${parsed} was not found in the database!`,
                 });
             }
@@ -208,21 +208,21 @@ class RandomImageCommands extends KopyCommand {
                 ) {
                     const id = toDelete.id;
                     toDelete.destroy();
-                    global.bot.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(this.msg.channel.id, {
                         content: `Successfully deleted ID #${id}`,
                     });
                 } else {
-                    global.bot.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(this.msg.channel.id, {
                         content: `Error: Insufficient permissions! You must be the original importer.`,
                     });
                 }
             } else {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content: `Error: You cant delete entries from other guilds!`,
                 });
             }
         } else {
-            global.bot.createMessage(this.msg.channel.id, {
+            global.client.createMessage(this.msg.channel.id, {
                 content: `Error: ID ${toSearch} is invalid! Must be an integer!`,
             });
         }
@@ -240,7 +240,7 @@ class RandomImageCommands extends KopyCommand {
             });
 
             if (all.length == 0) {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content:
                         "It doesnt look like that search term is in this guild or any partnered guilds!",
                 });
@@ -252,10 +252,10 @@ class RandomImageCommands extends KopyCommand {
                 embeds.push(this.makeEmbed(item));
             }
 
-            const message = await global.bot.createMessage(this.msg.channel.id, {
+            const message = await global.client.createMessage(this.msg.channel.id, {
                 content: "Loading...",
             });
-            new ButtonPaginator(global.bot, message, {
+            new ButtonPaginator(global.client, message, {
                 startingPage: 0,
                 allowedUsers: [this.msg.author.id],
                 maxTime: 120000,
@@ -271,20 +271,20 @@ class RandomImageCommands extends KopyCommand {
             });
 
             if (result == null) {
-                global.bot.createMessage(this.msg.channel.id, {
+                global.client.createMessage(this.msg.channel.id, {
                     content:
                         "It doesnt look like that ID is in this guild or any partnered guilds!",
                 });
                 return;
             } else {
                 const embed = this.makeEmbed(result);
-                global.bot.createMessage(this.msg.channel.id, { embeds: [embed] });
+                global.client.createMessage(this.msg.channel.id, { embeds: [embed] });
             }
         }
     }
 
     sendHelp() {
-        global.bot.createMessage(this.msg.channel.id, {
+        global.client.createMessage(this.msg.channel.id, {
             embeds: [
                 {
                     title: `How to use ${this.label}:`,

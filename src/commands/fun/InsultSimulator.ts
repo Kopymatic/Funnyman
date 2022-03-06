@@ -24,7 +24,7 @@ export class InsultSimulator extends KopyCommand {
         const name = args[0];
         const insult = lists.Insults[randomInt(lists.Insults.length)];
         const final = insult.replace(/~/g, name);
-        global.bot.createMessage(msg.channel.id, final);
+        global.client.createMessage(msg.channel.id, final);
         return null; //Return null so it doesnt send anything else
     }
 }

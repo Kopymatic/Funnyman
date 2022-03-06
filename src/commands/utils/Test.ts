@@ -20,10 +20,10 @@ export class Test extends KopyCommand {
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         if (msg.author.id === "326489320980611075") {
             //TODO make this use a list from a json or something
-            const message = await global.bot.createMessage(msg.channel.id, {
+            const message = await global.client.createMessage(msg.channel.id, {
                 content: "Loading...",
             });
-            new ButtonPaginator(global.bot, message, {
+            new ButtonPaginator(global.client, message, {
                 startingPage: 0,
                 allowedUsers: [msg.author.id],
                 maxTime: 100000,

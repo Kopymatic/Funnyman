@@ -5,8 +5,9 @@
         "build": "tsc"
     },
     "dependencies": {
+        "@kopymatic/basebot": "^1.1.0",
         "@types/ws": "^7.4.7",
-        "eris": "github:DonovanDMC/eris#everything",
+        "eris": "^0.16.1",
         "opusscript": "^0.0.8",
         "pg": "^8.7.1",
         "pg-hstore": "^2.3.4",

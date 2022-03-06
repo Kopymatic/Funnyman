@@ -5,7 +5,7 @@ import { Bug } from "../../main/models";
 import config from "../../resources/config.json";
 
 export class BugReport extends KopyCommand {
-    bugChannel = config.bugChannelID;
+    bugChannel = config.bugChannelId;
 
     constructor() {
         super();
@@ -24,13 +24,13 @@ export class BugReport extends KopyCommand {
         if (args[0] == "delete" && msg.author.id === "326489320980611075") {
             const toDelete = await Bug.findByPk(args[1]);
             if (toDelete === null) {
-                global.bot.createMessage(msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: "That id doesnt exist!",
                     messageReference: { messageID: msg.id },
                 });
                 return;
             }
-            global.bot.deleteMessage(this.bugChannel, toDelete.messageID, "Rejected/Fixed");
+            global.client.deleteMessage(this.bugChannel, toDelete.messageID, "Rejected/Fixed");
             toDelete.destroy();
             return;
         }
@@ -46,7 +46,7 @@ export class BugReport extends KopyCommand {
             attachments = "None";
         }
 
-        const bugMessage = await global.bot.createMessage(this.bugChannel, {
+        const bugMessage = await global.client.createMessage(this.bugChannel, {
             embeds: [
                 {
                     author: {

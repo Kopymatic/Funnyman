@@ -24,7 +24,7 @@ export class PartnerCmd extends KopyCommand {
 
     override async run(msg: Message<TextableChannel>, args: Array<string>): Promise<string> {
         if (args.length == 0) {
-            global.bot.createMessage(msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 embeds: [
                     {
                         title: "Partnering 101",
@@ -40,7 +40,7 @@ export class PartnerCmd extends KopyCommand {
         const regex = /^(\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d)/g; //Yes this is a regex for guild ids.
 
         if (!regex.test(args[0])) {
-            global.bot.createMessage(msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content:
                     "That does not appear to be a valid guild id! If you believe this to be an error," +
                     " contact Kopy through the about command and joining the support server.",
@@ -48,12 +48,12 @@ export class PartnerCmd extends KopyCommand {
             return;
         }
 
-        const foundGuild = (await global.bot.getRESTGuilds()).find(
+        const foundGuild = (await global.client.getRESTGuilds()).find(
             (element) => (element.id = args[0])
         );
 
         if (foundGuild == undefined || foundGuild == null) {
-            global.bot.createMessage(msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content: "The bot isnt in that guild!",
             });
             return;
@@ -76,7 +76,7 @@ export class PartnerCmd extends KopyCommand {
 
         const partnerButtonID = `${msg.id}:Partner`;
         const unpartnerButtonID = `${msg.id}:Unpartner`;
-        global.bot.createMessage(msg.channel.id, {
+        global.client.createMessage(msg.channel.id, {
             embeds: [
                 {
                     title: "Partnering 101",
@@ -108,12 +108,12 @@ export class PartnerCmd extends KopyCommand {
             ],
         });
 
-        global.bot.on("interactionCreate", (interaction) =>
+        global.client.on("interactionCreate", (interaction) =>
             this.handleInteraction(interaction, unpartnerButtonID, partnerButtonID)
         );
 
         setTimeout(() => {
-            global.bot.off("interactionCreate", (interaction) =>
+            global.client.off("interactionCreate", (interaction) =>
                 this.handleInteraction(interaction, unpartnerButtonID, partnerButtonID)
             );
         }, 120000);

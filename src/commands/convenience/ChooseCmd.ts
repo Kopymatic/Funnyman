@@ -12,6 +12,7 @@ export class ChooseCmd extends KopyCommand {
             aliases: ["pick"],
             caseInsensitive: true,
         };
-        this.generator = (msg, args) => `I pick ${args[randomInt(args.length)].trim()}`;
+        this.generator = (msg, args) =>
+            `I pick ${args.join(" ").split("/")[randomInt(args.length)].trim()}`;
     }
 }

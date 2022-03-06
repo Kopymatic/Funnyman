@@ -16,16 +16,16 @@ export class About extends KopyCommand {
     }
 
     override async run(msg: Message<TextableChannel>): Promise<string> {
-        const githubEmoji = await global.bot.getRESTGuildEmoji(
+        const githubEmoji = await global.client.getRESTGuildEmoji(
             "793293945437814797",
             "853144562201133066"
         );
-        const discordEmoji = await global.bot.getRESTGuildEmoji(
+        const discordEmoji = await global.client.getRESTGuildEmoji(
             "793293945437814797",
             "853144562222104596"
         );
 
-        global.bot.createMessage(msg.channel.id, {
+        global.client.createMessage(msg.channel.id, {
             embeds: [
                 {
                     title: `About ${global.name}`,

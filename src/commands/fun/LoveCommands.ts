@@ -62,7 +62,7 @@ abstract class LoveCommands extends KopyCommand {
     override async run(msg: Message<TextableChannel>): Promise<string> {
         if (msg.mentions.length > 0) {
             const user = msg.member;
-            const mention = await global.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
+            const mention = await global.client.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
             const userID = user.id; // The user id duh
             const mentionID = mention.id; //The id of the first user mentioned
             let result: LoveCommand;

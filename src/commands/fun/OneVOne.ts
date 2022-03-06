@@ -44,7 +44,7 @@ export class OneVOne extends KopyCommand {
         }
 
         //Create and send the embed
-        global.bot.createMessage(msg.channel.id, {
+        global.client.createMessage(msg.channel.id, {
             embed: {
                 title: title, // Set the title to our title variable
                 description: `${first} **${action}** ${second} **${descriptor}**`, //Use FancyString(TM) to quickly format the desc

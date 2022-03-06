@@ -17,7 +17,7 @@ export class ComplexEmbed extends KopyCommand {
 
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
         if (args.join("") == "") {
-            global.bot.createMessage(msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 embed: {
                     title: "How to use ComplexEmbed",
                     description: `Here is an example of how to use the ComplexEmbed command      
@@ -47,7 +47,7 @@ ${global.prefix}complexEmbed
             });
         } else {
             try {
-                global.bot.createMessage(msg.channel.id, { embed: JSON.parse(args.join(" ")) });
+                global.client.createMessage(msg.channel.id, { embed: JSON.parse(args.join(" ")) });
             } catch (_e) {
                 //If we get an error let the user know, probably should be fancier
                 const e: Error = _e;
