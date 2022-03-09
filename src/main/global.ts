@@ -31,6 +31,5 @@ module global {
     export let database: Sequelize;
     export const loggingChannelId: string = config.loggingChannelId;
     export const devServerId = config.devServerId;
-    export let absoluteStartTime: number;
 }
 export default global;
