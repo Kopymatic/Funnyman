@@ -1,41 +1,38 @@
 import KopyCommand from "../utilities/KopyCommand";
 import { Eval } from "./utils/Eval";
 import { About } from "./utils/About";
-import { OneVOne } from "./fun/OneVOne";
+import { OneVOneCmd } from "./fun/OneVOne";
 import { Ping, Pong } from "./utils/Ping";
-import {
-    AddSpaces,
-    Alphebetizer,
-    Clap,
-    OwOifier,
-    RandomCaps,
-    Reverser,
-    Say,
-} from "./convenience/QuickFormatCommands";
 import { Test } from "./utils/Test";
 import { ComplexEmbed } from "./utils/EmbedCommands";
-import { Lenny, LennyConcern, RickRoll } from "./convenience/QuickStringCommands";
-import { InsultSimulator } from "./fun/InsultSimulator";
+import { LennyCmd } from "./convenience/QuickStringCommands";
+import InsultSimulator from "./fun/InsultSimulator";
 import { Cuddle, HandHold, HeadPat, Hug, Kiss } from "./fun/LoveCommands";
-import { ChatDead } from "./fun/ChatDead";
+import ChatDeadCmd from "./fun/ChatDead";
 import { MemeCmd, NoContextCmd, PeopleCmd, PetCmd } from "../commands/fun/RandomImageCommands";
 import { BugReport } from "./utils/bugReport";
-import { ChooseCmd } from "./convenience/ChooseCmd";
+import ChooseCmd from "./convenience/ChooseCmd";
 import { SlashCommand } from "@kopymatic/basebot";
+import FormatCmd from "./convenience/QuickFormatCommands";
+import {
+    addspaces,
+    alphabetizer,
+    buttonexample,
+    clap,
+    owo,
+    randomcaps,
+    reverser,
+    say,
+    scramble,
+} from "./convenience/OldCommands";
 
 export const kopyCommands: KopyCommand[] = [
-    //convenience
-    new ChooseCmd(),
-
     //fun
-    new OneVOne(),
-    new InsultSimulator(),
     new Hug(),
     new Kiss(),
     new Cuddle(),
     new HandHold(),
     new HeadPat(),
-    new ChatDead(),
     new NoContextCmd(),
     new PeopleCmd(),
     new PetCmd(),
@@ -47,23 +44,27 @@ export const kopyCommands: KopyCommand[] = [
     new ComplexEmbed(),
     new Eval(),
     new Test(),
-    new About(),
     //new PartnerCmd(), not finished
     new BugReport(),
-
-    //QuickFormatCommands
-    new Say(),
-    new Clap(),
-    new AddSpaces(),
-    new OwOifier(),
-    new Reverser(),
-    new Alphebetizer(),
-    new RandomCaps(),
-
-    //QuickStringCommands
-    new Lenny(),
-    new LennyConcern(),
-    new RickRoll(),
 ];
 
-export const slashCommands: SlashCommand[] = [];
+export const slashCommands: SlashCommand[] = [
+    new ChooseCmd(),
+    new FormatCmd(),
+    new LennyCmd(),
+    new ChatDeadCmd(),
+    new InsultSimulator(),
+    new OneVOneCmd(),
+    new About(),
+
+    //Old commands - only here for deleting from discord
+    new addspaces(),
+    new alphabetizer(),
+    new buttonexample(),
+    new clap(),
+    new owo(),
+    new randomcaps(),
+    new reverser(),
+    new say(),
+    new scramble(),
+];

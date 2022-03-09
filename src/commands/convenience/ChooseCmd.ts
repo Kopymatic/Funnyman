@@ -1,18 +1,23 @@
-import KopyCommand from "../../utilities/KopyCommand";
 import { randomInt } from "crypto";
+import { CommandOptionTypes, SlashCommand } from "@kopymatic/basebot";
 
-export class ChooseCmd extends KopyCommand {
+export default class ChooseCmd extends SlashCommand {
     constructor() {
         super();
-        this.label = "Choose";
-        this.options = {
-            description: "Pick from a list you supply. Separate arguments with `/`",
-            fullDescription: "Pick from a list you supply. Separate arguments with `/`",
-            usage: "[Thing1 / Thing2 / Thing3...]",
-            aliases: ["pick"],
-            caseInsensitive: true,
+        this.name = "Choose";
+        this.description = "Choose between a bunch of comma seperated values";
+        this.options = [
+            {
+                name: "options",
+                description: "The options to choose from, seperated by commas",
+                type: CommandOptionTypes.STRING,
+                required: true,
+            },
+        ];
+        this.onRun = (interaction) => {
+            const choices: string = this.getOptions(interaction)[0].value;
+            const split = choices.split(",");
+            interaction.createFollowup("I choose " + split[randomInt(split.length)].trim());
         };
-        this.generator = (msg, args) =>
-            `I pick ${args.join(" ").split("/")[randomInt(args.length)].trim()}`;
     }
 }

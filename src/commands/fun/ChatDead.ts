@@ -1,34 +1,50 @@
-import { Message, TextableChannel } from "eris";
-import KopyCommand from "../../utilities/KopyCommand";
 import Lists from "../../resources/lists.json";
 import { randomInt } from "crypto";
+import { CommandOptionTypes, SlashCommand } from "@kopymatic/basebot";
 
-export class ChatDead extends KopyCommand {
+export default class ChatDeadCmd extends SlashCommand {
     constructor() {
         super();
-        this.label = "ChatDead";
-        this.options = {
-            description: "Sends a random question",
-            fullDescription: "Sends a random question / conversation starter",
-            usage: "Question type: [Would You Rather / wyr], [General questions / gq] (optional)",
-            aliases: ["ded", "dead", "chatded"],
-            caseInsensitive: true,
-        };
-        this.generator = (msg, args) => this.run(msg, args);
-    }
+        this.name = "ChatDead";
+        this.description = "Sends a random question to hopefully revive the chat.";
+        this.options = [
+            {
+                name: "type",
+                description: "The type of the question",
+                type: CommandOptionTypes.STRING,
+                required: false,
+                choices: [
+                    {
+                        name: "Would You Rather",
+                        value: "wyr",
+                    },
+                    {
+                        name: "General Question",
+                        value: "gq",
+                    },
+                ],
+            },
+        ];
+        this.onRun = (interaction) => {
+            const choice = this.getOptions(interaction);
+            let questionType: string;
+            if (choice) {
+                questionType = choice[0].value;
+            } else {
+                questionType = Math.random() < 0.5 ? "wyr" : "gq";
+            }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    override async run(_msg: Message<TextableChannel>, _args: string[]): Promise<string> {
-        if (
-            Math.random() >
-            Lists.ChatDead.WouldYouRather.length / Lists.ChatDead.GeneralQuestions.length
-        ) {
-            //Should give an even distribution
-            return Lists.ChatDead.GeneralQuestions[
-                randomInt(Lists.ChatDead.GeneralQuestions.length)
-            ];
-        } else {
-            return Lists.ChatDead.WouldYouRather[randomInt(Lists.ChatDead.WouldYouRather.length)];
-        }
+            let question: string;
+            if (questionType == "wyr") {
+                question =
+                    Lists.ChatDead.WouldYouRather[randomInt(Lists.ChatDead.WouldYouRather.length)];
+            } else {
+                question =
+                    Lists.ChatDead.GeneralQuestions[
+                        randomInt(Lists.ChatDead.GeneralQuestions.length)
+                    ];
+            }
+            interaction.createFollowup(question);
+        };
     }
 }
