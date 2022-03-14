@@ -1,11 +1,17 @@
-import { Message, TextableChannel } from "eris";
-import KopyCommand from "../../utilities/KopyCommand";
 import global from "../../main/global";
 import { LoveCommand } from "../../main/models";
 import lists from "../../resources/lists.json";
 import { randomInt } from "crypto";
+import {
+    ButtonStyles,
+    CommandOptionTypes,
+    ComponentTypes,
+    Menu,
+    SlashCommand,
+} from "@kopymatic/basebot";
+import { ComponentInteraction, InteractionButton, InteractionContent } from "eris";
 
-abstract class LoveCommands extends KopyCommand {
+abstract class LoveCommands extends SlashCommand {
     /**
      * Array of gifs the command can pick from
      */
@@ -59,13 +65,30 @@ abstract class LoveCommands extends KopyCommand {
         "https://media1.tenor.com/images/552432b67854256e7b51ab96c86d8b80/tenor.gif",
     ];
 
-    override async run(msg: Message<TextableChannel>): Promise<string> {
-        if (msg.mentions.length > 0) {
-            const user = msg.member;
-            const mention = await global.client.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
+    constructor() {
+        super();
+        this.options = [
+            {
+                name: "user",
+                description: "The user to do this action to",
+                type: CommandOptionTypes.USER,
+                required: true,
+            },
+        ];
+        this.onRun = async (interaction) => {
+            if (this.isInDm(interaction)) {
+                interaction.createFollowup("This command is only meant to be used in servers.");
+                return;
+            }
+
+            const user = interaction.member;
+            const mention = await global.client.getRESTGuildMember(
+                interaction.guildID,
+                this.getOptions(interaction)[0].value
+            );
             const userID = user.id; // The user id duh
             const mentionID = mention.id; //The id of the first user mentioned
-            let result: LoveCommand;
+            let dbEntry: LoveCommand;
 
             //Here's where we do database shit. Oh boy.
             await LoveCommand.findOne({
@@ -75,11 +98,12 @@ abstract class LoveCommands extends KopyCommand {
                     actionidentifier: this.actionIdentifier,
                 },
             }).then((res) => {
-                result = res;
+                dbEntry = res;
             });
-            if (result != null) {
-                result.timesperformed++;
-                result.save();
+
+            if (dbEntry != null) {
+                dbEntry.timesperformed++;
+                dbEntry.save();
             } else {
                 const newRow = await LoveCommand.create({
                     senderid: userID,
@@ -87,7 +111,7 @@ abstract class LoveCommands extends KopyCommand {
                     actionidentifier: this.actionIdentifier,
                     timesperformed: 1,
                 });
-                result = newRow;
+                dbEntry = newRow;
             }
 
             let userName: string;
@@ -103,35 +127,128 @@ abstract class LoveCommands extends KopyCommand {
                 mentionName = mention.nick;
             }
 
-            msg.channel.createMessage({
-                embed: {
-                    title: `${userName} ${this.embedTitleText} ${mentionName}`,
-                    image: { url: this.gifs[randomInt(this.gifs.length)] },
-                    footer: {
-                        text: `That's ${result.timesperformed} ${this.embedFooterText} now!`,
+            const button: InteractionButton = {
+                type: ComponentTypes.Button,
+                style: ButtonStyles.Primary,
+                custom_id: `${Math.random()}|${this.name}`,
+                label: `Return the ${this.name}`,
+            };
+
+            const message: InteractionContent = {
+                embeds: [
+                    {
+                        title: `${userName} ${this.embedTitleText} ${mentionName}`,
+                        image: {
+                            url: dbEntry.timesperformed.toString().includes("69")
+                                ? this.sixtyNineGifs[randomInt(this.sixtyNineGifs.length)]
+                                : this.gifs[randomInt(this.gifs.length)],
+                        },
+                        footer: {
+                            text: `That's ${dbEntry.timesperformed} ${this.embedFooterText} now!`,
+                        },
+                        color: global.defaultColor,
                     },
-                    color: global.defaultColor,
-                },
-            });
-        }
-        return null;
+                ],
+                components: [
+                    {
+                        type: ComponentTypes.ActionRow,
+                        components: [button],
+                    },
+                ],
+            };
+
+            new Menu(
+                global.client,
+                interaction,
+                message,
+                [
+                    {
+                        button: button,
+                        func: async (interaction: ComponentInteraction) => {
+                            button.disabled = true;
+                            (await interaction.getOriginalMessage()).edit({
+                                embeds: message.embeds,
+                                components: [
+                                    {
+                                        type: ComponentTypes.ActionRow,
+                                        components: [button],
+                                    },
+                                ],
+                            });
+
+                            await LoveCommand.findOne({
+                                where: {
+                                    senderid: mentionID,
+                                    receiverid: userID,
+                                    actionidentifier: this.actionIdentifier,
+                                },
+                            }).then((res) => {
+                                dbEntry = res;
+                            });
+
+                            if (dbEntry != null) {
+                                dbEntry.timesperformed++;
+                                dbEntry.save();
+                            } else {
+                                const newRow = await LoveCommand.create({
+                                    senderid: mentionID,
+                                    receiverid: userID,
+                                    actionidentifier: this.actionIdentifier,
+                                    timesperformed: 1,
+                                });
+                                dbEntry = newRow;
+                            }
+
+                            let userName: string;
+                            if (user.nick == null) {
+                                userName = user.username;
+                            } else {
+                                userName = user.nick;
+                            }
+                            let mentionName: string;
+                            if (mention.nick == null) {
+                                mentionName = mention.username;
+                            } else {
+                                mentionName = mention.nick;
+                            }
+
+                            const message2: InteractionContent = {
+                                embeds: [
+                                    {
+                                        title: `${mentionName} ${this.embedTitleText} ${userName}`,
+                                        image: {
+                                            url: dbEntry.timesperformed.toString().includes("69")
+                                                ? this.sixtyNineGifs[
+                                                      randomInt(this.sixtyNineGifs.length)
+                                                  ]
+                                                : this.gifs[randomInt(this.gifs.length)],
+                                        },
+                                        footer: {
+                                            text: `That's ${dbEntry.timesperformed} ${this.embedFooterText} now!`,
+                                        },
+                                        color: global.defaultColor,
+                                    },
+                                ],
+                            };
+
+                            interaction.createFollowup(message2);
+                        },
+                    },
+                ],
+                {
+                    allowedUsers: [mentionID],
+                    maxTime: 60000,
+                }
+            );
+        };
     }
 }
 
 export class Hug extends LoveCommands {
     constructor() {
         super();
-        this.label = "Hug";
-        this.options = {
-            description: "Hug somebody!",
-            fullDescription: "Hug somebody!",
-            usage: "[User as @mention]",
-            argsRequired: true,
-            invalidUsageMessage: "Run the command again with mention!",
-            caseInsensitive: true,
-        };
-        this.generator = (msg) => this.run(msg);
-
+        this.name = "Hug";
+        this.description = "Hug somebody!";
         //LoveCommand options
         this.reactionPercent = 40;
         this.possibleReactions = ["U+2764", "U+1F49B"];
@@ -145,17 +262,8 @@ export class Hug extends LoveCommands {
 export class Kiss extends LoveCommands {
     constructor() {
         super();
-        this.label = "Kiss";
-        this.options = {
-            description: "Kiss somebody!",
-            fullDescription: "Kiss somebody!",
-            usage: "[User as @mention]",
-            argsRequired: true,
-            invalidUsageMessage: "Run the command again with mention!",
-            caseInsensitive: true,
-        };
-        this.generator = (msg) => this.run(msg);
-
+        this.name = "Kiss";
+        this.description = "Kiss somebody!";
         //LoveCommand options
         this.reactionPercent = 60;
         this.actionIdentifier = "kiss";
@@ -168,17 +276,8 @@ export class Kiss extends LoveCommands {
 export class Cuddle extends LoveCommands {
     constructor() {
         super();
-        this.label = "Cuddle";
-        this.options = {
-            description: "Cuddle somebody!",
-            fullDescription: "Cuddle somebody!",
-            usage: "[User as @mention]",
-            argsRequired: true,
-            invalidUsageMessage: "Run the command again with mention!",
-            caseInsensitive: true,
-        };
-        this.generator = (msg) => this.run(msg);
-
+        this.name = "Cuddle";
+        this.description = "Cuddle somebody!";
         //LoveCommand options
         this.reactionPercent = 85;
         this.actionIdentifier = "cudd";
@@ -191,17 +290,8 @@ export class Cuddle extends LoveCommands {
 export class HandHold extends LoveCommands {
     constructor() {
         super();
-        this.label = "HandHold";
-        this.options = {
-            description: "Hold hands with somebody!",
-            fullDescription: "Hold hands with somebody!",
-            usage: "[User as @mention]",
-            argsRequired: true,
-            invalidUsageMessage: "Run the command again with mention!",
-            caseInsensitive: true,
-        };
-        this.generator = (msg) => this.run(msg);
-
+        this.name = "HandHold";
+        this.description = "Hold hands with somebody";
         //LoveCommand options
         this.reactionPercent = 70;
         this.actionIdentifier = "hand";
@@ -214,17 +304,8 @@ export class HandHold extends LoveCommands {
 export class HeadPat extends LoveCommands {
     constructor() {
         super();
-        this.label = "HeadPat";
-        this.options = {
-            description: "Headpat somebody!",
-            fullDescription: "Headpat somebody!",
-            usage: "[User as @mention]",
-            argsRequired: true,
-            invalidUsageMessage: "Run the command again with mention!",
-            caseInsensitive: true,
-        };
-        this.generator = (msg) => this.run(msg);
-
+        this.name = "HeadPat";
+        this.description = "Pat somebody on the head!";
         //LoveCommand options
         this.reactionPercent = 30;
         this.actionIdentifier = "head";

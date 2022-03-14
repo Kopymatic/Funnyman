@@ -28,11 +28,6 @@ import {
 
 export const kopyCommands: KopyCommand[] = [
     //fun
-    new Hug(),
-    new Kiss(),
-    new Cuddle(),
-    new HandHold(),
-    new HeadPat(),
     new NoContextCmd(),
     new PeopleCmd(),
     new PetCmd(),
@@ -49,6 +44,11 @@ export const kopyCommands: KopyCommand[] = [
 ];
 
 export const slashCommands: SlashCommand[] = [
+    new Hug(),
+    new Kiss(),
+    new Cuddle(),
+    new HandHold(),
+    new HeadPat(),
     new ChooseCmd(),
     new FormatCmd(),
     new LennyCmd(),
