@@ -1,7 +1,6 @@
 import { randomInt } from "crypto";
 import lists from "../../resources/lists.json";
 import { CommandOptionTypes, SlashCommand } from "@kopymatic/basebot";
-import { Member, User } from "eris";
 import global from "../../main/global";
 
 export default class InsultSimulator extends SlashCommand {
