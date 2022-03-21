@@ -24,7 +24,7 @@ class RandomImageCommands extends KopyCommand {
             this.sendRandom(msg);
         } else {
             if (args[0].toLowerCase() === "owner" && msg.author.id === "326489320980611075") {
-                this.owner(msg, args);
+                this.owner(msg);
                 return null;
             }
             switch (args[0].toLowerCase()) {
@@ -57,7 +57,7 @@ class RandomImageCommands extends KopyCommand {
         return null;
     }
 
-    protected async owner(msg: Message<TextableChannel>, args: string[]) {
+    protected async owner(msg: Message<TextableChannel>) {
         const all = await this.model.findAll();
         const embeds = new Array<Embed>();
         for (const item of all) {
