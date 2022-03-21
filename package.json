@@ -5,7 +5,7 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@kopymatic/basebot": "^1.2.1",
+        "@kopymatic/basebot": "^3.0.4",
         "@types/ws": "^7.4.7",
         "eris": "^0.16.1",
         "opusscript": "^0.0.8",
