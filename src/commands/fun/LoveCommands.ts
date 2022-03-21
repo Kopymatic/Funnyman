@@ -40,17 +40,7 @@ abstract class LoveCommands extends SlashCommand {
      * When a command is issued, there's a percent chance that it will react with an emoji. This is where those emojis are stored.
      * Must be properly formatted. Ask Kopy. Defaults to a bunch of hearts.
      */
-    protected possibleReactions = [
-        "U+2764",
-        "U+1F496",
-        "U+1F497",
-        "U+1F49F",
-        "U+2763",
-        "U+1F49D",
-        "U+1F49E",
-        "U+1F495",
-        "U+1F493",
-    ];
+    protected possibleReactions = ["❤️", "💖", "💗", "💟", "❣️", "💝", "💞", "💕", "💓"];
 
     /**
      * The percentage chance of a reaction. Set to 0 to never have any, set to 100 to always have them.
@@ -231,7 +221,12 @@ abstract class LoveCommands extends SlashCommand {
                                 ],
                             };
 
-                            interaction.createFollowup(message2);
+                            const originalMessage = await interaction.createFollowup(message2);
+                            if (Math.random() < this.reactionPercent / 100) {
+                                originalMessage.addReaction(
+                                    this.possibleReactions[randomInt(this.possibleReactions.length)]
+                                );
+                            }
                         },
                     },
                 ],
@@ -240,6 +235,13 @@ abstract class LoveCommands extends SlashCommand {
                     maxTime: 60000,
                 }
             );
+
+            if (Math.random() < this.reactionPercent / 100) {
+                const originalMessage = await interaction.getOriginalMessage();
+                originalMessage.addReaction(
+                    this.possibleReactions[randomInt(this.possibleReactions.length)]
+                );
+            }
         };
     }
 }
@@ -251,7 +253,7 @@ export class Hug extends LoveCommands {
         this.description = "Hug somebody!";
         //LoveCommand options
         this.reactionPercent = 40;
-        this.possibleReactions = ["U+2764", "U+1F49B"];
+        this.possibleReactions = ["❤️", "💛"];
         this.actionIdentifier = "hugg";
         this.embedTitleText = "hugs";
         this.embedFooterText = "hugs";
