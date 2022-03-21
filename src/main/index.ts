@@ -18,14 +18,7 @@ console.log("Database connection successful!");
 const client = new Eris.CommandClient(
     global.token,
     {
-        intents: [
-            "guildMessages",
-            "directMessages",
-            "guildMessageReactions",
-            "directMessageTyping",
-            "guildMessageTyping",
-            "guildEmojis",
-        ],
+        intents: ["guildMessages", "directMessages", "guildEmojis"],
         allowedMentions: { everyone: false }, //No pingy everyone
         maxShards: "auto",
         restMode: true,
@@ -62,4 +55,7 @@ global.bot = new BaseBot(client, global.database, slashCommands, {
     version: global.version,
     defaultColor: global.defaultColor,
     statsCommand: true,
+    autoSendCommands: false,
+    updateCommandsCommand: true,
+    ownerID: "326489320980611075",
 });
