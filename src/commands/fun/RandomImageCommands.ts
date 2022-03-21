@@ -17,40 +17,39 @@ class RandomImageCommands extends KopyCommand {
      */
     protected footers = ["default"];
 
-    private msg: Message<TextableChannel>;
-    private args: string[];
-
     override async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
-        this.msg = msg;
-        this.args = args;
         if (msg.attachments.length > 0) {
-            this.import();
+            this.import(msg, args);
         } else if (args.length == 0) {
-            this.sendRandom();
+            this.sendRandom(msg);
         } else {
+            if (args[0].toLowerCase() === "owner" && msg.author.id === "326489320980611075") {
+                this.owner(msg, args);
+                return null;
+            }
             switch (args[0].toLowerCase()) {
                 case "delete": {
-                    this.delete();
+                    this.delete(msg, args);
                     break;
                 }
                 case "edit": {
-                    this.edit();
+                    this.edit(msg, args);
                     break;
                 }
                 case "all": {
-                    this.sendAll();
+                    this.sendAll(msg);
                     break;
                 }
                 case "help": {
-                    this.sendHelp();
+                    this.sendHelp(msg);
                     break;
                 }
                 case "i": {
-                    this.forceImport();
+                    this.forceImport(msg, args);
                     break;
                 }
                 default: {
-                    this.search();
+                    this.search(msg, args);
                     break;
                 }
             }
@@ -58,15 +57,34 @@ class RandomImageCommands extends KopyCommand {
         return null;
     }
 
-    protected async sendRandom(): Promise<void> {
+    protected async owner(msg: Message<TextableChannel>, args: string[]) {
+        const all = await this.model.findAll();
+        const embeds = new Array<Embed>();
+        for (const item of all) {
+            embeds.push(this.makeEmbed(item));
+        }
+
+        const message = await global.client.createMessage(msg.channel.id, {
+            content: "Loading...",
+        });
+        new ButtonPaginator(global.client, message, {
+            startingPage: 0,
+            allowedUsers: [msg.author.id],
+            maxTime: 120000,
+            pages: embeds,
+        });
+        return;
+    }
+
+    protected async sendRandom(msg: Message<TextableChannel>): Promise<void> {
         const all = await this.model.findAll({
             //Using findall here is... not a good idea. If we ever get to a larger scale, this will be a problem.
             where: {
-                guildid: this.msg.guildID, //TODO add partnering
+                guildid: msg.guildID, //TODO add partnering
             },
         });
         if (all.length == 0) {
-            global.client.createMessage(this.msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content:
                     "It doesnt look like there are any entries in this guild or partnered guilds!",
             });
@@ -74,14 +92,14 @@ class RandomImageCommands extends KopyCommand {
         }
         const embed = this.makeEmbed(all[randomInt(all.length)]);
 
-        global.client.createMessage(this.msg.channel.id, { embeds: [embed] });
+        global.client.createMessage(msg.channel.id, { embeds: [embed] });
         return;
     }
 
-    protected async sendAll(): Promise<void> {
+    protected async sendAll(msg: Message<TextableChannel>): Promise<void> {
         const all = await this.model.findAll({
             where: {
-                guildid: this.msg.guildID, //TODO add partnering
+                guildid: msg.guildID, //TODO add partnering
             },
         });
         const embeds = new Array<Embed>();
@@ -89,100 +107,100 @@ class RandomImageCommands extends KopyCommand {
             embeds.push(this.makeEmbed(item));
         }
 
-        const message = await global.client.createMessage(this.msg.channel.id, {
+        const message = await global.client.createMessage(msg.channel.id, {
             content: "Loading...",
         });
         new ButtonPaginator(global.client, message, {
             startingPage: 0,
-            allowedUsers: [this.msg.author.id],
+            allowedUsers: [msg.author.id],
             maxTime: 120000,
             pages: embeds,
         });
         return;
     }
-    protected async edit(): Promise<void> {
-        const toSearch = this.args[1];
+    protected async edit(msg: Message<TextableChannel>, args: string[]): Promise<void> {
+        const toSearch = args[1];
         const parsed = parseInt(toSearch);
         if (!isNaN(parsed)) {
             const toEdit = await this.model.findOne({ where: { id: parsed } });
             if (toEdit == null) {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: `Error: ID #${parsed} was not found in the database!`,
                 });
             }
-            if (this.msg.guildID == toEdit.guildid) {
+            if (msg.guildID == toEdit.guildid) {
                 if (
-                    /*this.msg.member.permissions.has("administrator")||*/ this.msg.author.id ==
+                    /*msg.member.permissions.has("administrator")||*/ msg.author.id ==
                     toEdit.importerid
                 ) {
                     const id = toEdit.id;
-                    this.args.shift();
-                    this.args.shift(); //remove the first 2 elements
-                    const newText = this.args.join(" ");
+                    args.shift();
+                    args.shift(); //remove the first 2 elements
+                    const newText = args.join(" ");
                     toEdit.texttag = newText;
                     await toEdit.save();
-                    global.client.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(msg.channel.id, {
                         content: `Successfully edited ID #${id}! New text: "${newText}"`,
                     });
                 } else {
-                    global.client.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(msg.channel.id, {
                         content: `Error: Insufficient permissions! You must be the original importer.`,
                     });
                 }
             } else {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: `Error: You cant edit entries from other guilds!`,
                 });
             }
         } else {
-            global.client.createMessage(this.msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content: `Error: ID #${toSearch} is invalid! Must be an integer!`,
             });
         }
     }
 
-    protected async import(): Promise<void> {
-        for (const attachment of this.msg.attachments) {
+    protected async import(msg: Message<TextableChannel>, args: string[]): Promise<void> {
+        for (const attachment of msg.attachments) {
             const newRow = await this.model.create({
-                guildid: this.msg.guildID,
+                guildid: msg.guildID,
                 imagelink: attachment.url,
                 linktag: null, //TODO make a regex that recognizes discord links
-                texttag: this.args.join(" "),
-                importerid: this.msg.author.id,
-                importmessageid: this.msg.id,
+                texttag: args.join(" "),
+                importerid: msg.author.id,
+                importmessageid: msg.id,
             });
-            global.client.createMessage(this.msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content: "Your entry was imported! It has the id #" + newRow.id,
             });
         }
     }
 
-    protected async forceImport(): Promise<void> {
-        if (this.args.length <= 1) {
-            global.client.createMessage(this.msg.channel.id, {
-                content: `Force import format: \`${global.prefix}NoContext (or applicable command) [image link] [text tag]\``,
+    protected async forceImport(msg: Message<TextableChannel>, args: string[]): Promise<void> {
+        if (args.length <= 1) {
+            global.client.createMessage(msg.channel.id, {
+                content: `Force import format: \`${global.prefix}${this.label} [image link] [text tag]\``,
             });
         } else {
             const regex =
                 /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/g;
-            if (regex.test(this.args[1])) {
-                const imageLink = this.args[1];
-                this.args.shift();
-                this.args.shift();
-                const joinedArgs = this.args.join(" ");
+            if (regex.test(args[1])) {
+                const imageLink = args[1];
+                args.shift();
+                args.shift();
+                const joinedArgs = args.join(" ");
                 const newRow = await this.model.create({
-                    guildid: this.msg.guildID,
+                    guildid: msg.guildID,
                     imagelink: imageLink,
                     linktag: null, //TODO make a regex that recognizes discord links
                     texttag: joinedArgs,
-                    importerid: this.msg.author.id,
-                    importmessageid: this.msg.id,
+                    importerid: msg.author.id,
+                    importmessageid: msg.id,
                 });
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: "Your entry was imported! It has the id #" + newRow.id,
                 });
             } else {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content:
                         "That does not appear to be a link! If you believe this to be an error," +
                         " contact Kopy through ddabout and joining the support server.",
@@ -191,56 +209,56 @@ class RandomImageCommands extends KopyCommand {
         }
     }
 
-    protected async delete(): Promise<void> {
-        const toSearch = this.args[1];
+    protected async delete(msg: Message<TextableChannel>, args: string[]): Promise<void> {
+        const toSearch = args[1];
         const parsed = parseInt(toSearch);
         if (!isNaN(parsed)) {
             const toDelete = await this.model.findOne({ where: { id: parsed } });
             if (toDelete == null) {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: `Error: ID #${parsed} was not found in the database!`,
                 });
             }
-            if (this.msg.guildID == toDelete.guildid) {
+            if (msg.guildID == toDelete.guildid) {
                 if (
-                    /*this.msg.member.permissions.has("administrator")|| - Causes error, fix later*/ this
-                        .msg.author.id == toDelete.importerid
+                    /*msg.member.permissions.has("administrator")|| - Causes error, fix later*/
+                    msg.author.id == toDelete.importerid
                 ) {
                     const id = toDelete.id;
                     toDelete.destroy();
-                    global.client.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(msg.channel.id, {
                         content: `Successfully deleted ID #${id}`,
                     });
                 } else {
-                    global.client.createMessage(this.msg.channel.id, {
+                    global.client.createMessage(msg.channel.id, {
                         content: `Error: Insufficient permissions! You must be the original importer.`,
                     });
                 }
             } else {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content: `Error: You cant delete entries from other guilds!`,
                 });
             }
         } else {
-            global.client.createMessage(this.msg.channel.id, {
+            global.client.createMessage(msg.channel.id, {
                 content: `Error: ID ${toSearch} is invalid! Must be an integer!`,
             });
         }
     }
 
-    protected async search(): Promise<void> {
-        const toSearch = this.args.join(" ");
+    protected async search(msg: Message<TextableChannel>, args: string[]): Promise<void> {
+        const toSearch = args.join(" ");
         const parsed = parseInt(toSearch);
         if (isNaN(parsed)) {
             const all = await this.model.findAll({
                 where: {
-                    guildid: this.msg.guildID, //TODO add partnering
+                    guildid: msg.guildID, //TODO add partnering
                     texttag: { [Op.iLike]: `%${toSearch}%` },
                 },
             });
 
             if (all.length == 0) {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content:
                         "It doesnt look like that search term is in this guild or any partnered guilds!",
                 });
@@ -252,12 +270,12 @@ class RandomImageCommands extends KopyCommand {
                 embeds.push(this.makeEmbed(item));
             }
 
-            const message = await global.client.createMessage(this.msg.channel.id, {
+            const message = await global.client.createMessage(msg.channel.id, {
                 content: "Loading...",
             });
             new ButtonPaginator(global.client, message, {
                 startingPage: 0,
-                allowedUsers: [this.msg.author.id],
+                allowedUsers: [msg.author.id],
                 maxTime: 120000,
                 pages: embeds,
             });
@@ -265,26 +283,26 @@ class RandomImageCommands extends KopyCommand {
         } else {
             const result = await this.model.findOne({
                 where: {
-                    guildid: this.msg.guildID, //TODO add partnering
+                    guildid: msg.guildID, //TODO add partnering
                     id: parsed,
                 },
             });
 
             if (result == null) {
-                global.client.createMessage(this.msg.channel.id, {
+                global.client.createMessage(msg.channel.id, {
                     content:
                         "It doesnt look like that ID is in this guild or any partnered guilds!",
                 });
                 return;
             } else {
                 const embed = this.makeEmbed(result);
-                global.client.createMessage(this.msg.channel.id, { embeds: [embed] });
+                global.client.createMessage(msg.channel.id, { embeds: [embed] });
             }
         }
     }
 
-    sendHelp() {
-        global.client.createMessage(this.msg.channel.id, {
+    sendHelp(msg: Message<TextableChannel>) {
+        global.client.createMessage(msg.channel.id, {
             embeds: [
                 {
                     title: `How to use ${this.label}:`,
