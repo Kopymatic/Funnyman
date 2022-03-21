@@ -110,6 +110,10 @@ export class ButtonPaginator extends EventEmitter {
     }
 
     private handleButtonPress = async (interaction: ComponentInteraction): Promise<void> => {
+        if (!(interaction instanceof ComponentInteraction)) {
+            return;
+        }
+
         if (this.message.id !== interaction.message.id) {
             return;
         } else {

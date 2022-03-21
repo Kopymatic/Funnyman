@@ -33,6 +33,12 @@ LoveCommand.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        primarykey: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
     },
     { sequelize: database, tableName: "lovecommands", timestamps: false }
 );
