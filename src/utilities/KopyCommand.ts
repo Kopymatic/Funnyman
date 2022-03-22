@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CommandGenerator, CommandOptions, Message, TextableChannel } from "eris";
 
-export class KopyCommand { 
+export default class KopyCommand {
     label: string;
     generator: CommandGenerator;
     options: CommandOptions;
     subcommands: KopyCommand[] = [];
 
-    run(msg: Message<TextableChannel>, args: String[]): string { return }
+    async run(msg: Message<TextableChannel>, args: string[]): Promise<string> {
+        return;
+    }
 }
